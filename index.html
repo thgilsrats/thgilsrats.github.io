@@ -139,646 +139,6 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/23/%E5%A5%97%E8%B7%AF%E9%A2%98%E7%9B%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="starslight">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/03/23/%E5%A5%97%E8%B7%AF%E9%A2%98%E7%9B%AE/" class="post-title-link" itemprop="url">套路题目</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2023-03-23 00:00:00 / Modified: 22:43:02" itemprop="dateCreated datePublished" datetime="2023-03-23T00:00:00+08:00">2023-03-23</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="树">树</h1>
-<h3 id="思维技巧">思维技巧</h3>
-<ol type="1">
-<li><p>将树上所有到从 <span class="math inline">\(u\)</span> 到 <span
-class="math inline">\(v\)</span> 的路径的距离不超过$ d <span
-class="math inline">\(的点的点权加上\)</span> k$，单点询问</p>
-<blockquote>
-<p>再链上，边<span class="math inline">\(u\rightarrow
-v\)</span>，距离<span class="math inline">\(v\)</span>,为<span
-class="math inline">\(k-1\)</span>的被距离<span
-class="math inline">\(u\)</span>，为<span
-class="math inline">\(k\)</span>的覆盖，所以只用考虑距离每个点子树内恰好为<span
-class="math inline">\(k\)</span>，继续树上差分，开d颗树状数组，<span
-class="math inline">\(bit[k][out[u]]-bit[k][in[u]-1]\)</span>表示给<span
-class="math inline">\(u\)</span>的深度k加上这个值，然后考虑从<span
-class="math inline">\(lca\)</span>向上走的贡献，记录<span
-class="math inline">\(f[u][dis]\)</span>表示<span
-class="math inline">\(u\)</span>对子树内距离不超过<span
-class="math inline">\(dis\)</span>加的值，再删除<span
-class="math inline">\(f[fa[u]][dis-2]\)</span>，在<span
-class="math inline">\(x\)</span>跳<span
-class="math inline">\(fa\)</span>的时候</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(ri i=<span class="number">0</span>;i&lt;=<span class="number">20</span>&amp;&amp;x;i++) &#123;</span><br><span class="line">	res+=fen[i].<span class="built_in">rangequery</span>(in[x],out[x]);</span><br><span class="line">	<span class="keyword">for</span>(ri j=dis;j&lt;=<span class="number">20</span>;j++)res+=f[x][j];</span><br><span class="line">	++dis;</span><br><span class="line"> 	x=father[x];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>即可</p>
-</blockquote></li>
-<li><p>$u $到 $v $的简单路径上的所有点点权异或和 <span
-class="math inline">\(=0\)</span> (<span
-class="math inline">\(CF1709E\)</span>)</p>
-<blockquote>
-<p>令 <span class="math inline">\(au\)</span> 表示 <span
-class="math inline">\(u\)</span> 的点权，<span
-class="math inline">\(du\)</span> 表示树上 <span
-class="math inline">\(1\)</span> 到 <span
-class="math inline">\(u\)</span> 简单路径上所有点的点权异或和。</p>
-<p>等价于 <span
-class="math inline">\(du⊕dv⊕alca(u,v)=0\)</span>，然后考虑只修改<span
-class="math inline">\(alca(u,v)\)</span>就可以了</p>
-</blockquote></li>
-<li><p>多次考虑一颗子树的贡献，那么可以转化成一个点对其到根的链上的点的贡献(<span
-class="math inline">\(P3925\)</span>)</p></li>
-<li><p>一条边两端的选点问题<span
-class="math inline">\(\rightarrow\)</span>边与点配对</p></li>
-<li><p>树上<span class="math inline">\(LIS\)</span>问题</p>
-<blockquote>
-<p>参考<span class="math inline">\(CF490F\)</span></p>
-</blockquote></li>
-<li><p>一棵树的直径的中点唯一</p></li>
-<li><p>树上联通合并的时候，新的连通块直径只能是<span
-class="math inline">\(4\)</span>个端点中的两个</p></li>
-<li><p>求子树外，倍增<span
-class="math inline">\(dfn\)</span>序列，那么就是连续区间了。</p></li>
-<li><p>节点带颜色，考虑动态开点或者总共<span
-class="math inline">\(O(n)\)</span>的算法或数据结构</p></li>
-<li><p>树上贪心：一般从叶子节点开始贪心，才能保证最优。</p></li>
-</ol>
-<h1 id="图论">图论</h1>
-<h3 id="最短路">最短路</h3>
-<ol type="1">
-<li><strong>两点间最短路径是简单路径，不会有环路</strong> (<span
-class="math inline">\(SCOI2009\)</span>最长路径)</li>
-<li>求两个环之间长度的差值，正向边<span
-class="math inline">\(1\)</span>，反向边<span
-class="math inline">\(-1\)</span>，(<span
-class="math inline">\(NOI2008\)</span>假面舞会)</li>
-<li></li>
-</ol>
-<h3 id="图论模型转化">图论(模型)转化</h3>
-<ol type="1">
-<li><p>$ ∑<em>{i∈E}w_i−max</em>{⁡i∈E}w_i+min⁡{i∈E}w_i$</p>
-<blockquote>
-<p>权值最大不计数，权值最小双计数，问最短距离。</p>
-<p>跑分层图</p>
-</blockquote></li>
-<li></li>
-</ol>
-<h3 id="优化建图">优化建图</h3>
-<ol type="1">
-<li>有关<span
-class="math inline">\(GCD\)</span>或者倍数关系的建图，一定要往完全图<span
-class="math inline">\(\rightarrow\)</span>树的方向想，例如说：两两<span
-class="math inline">\(gcd=a\)</span>的连边，那么可以，<span
-class="math inline">\(a\rightarrow 2\times a,a\rightarrow 3 \times a
-....\)</span>连边，连通性一定满足，大小为<span
-class="math inline">\(O(nlogn)\)</span></li>
-</ol>
-<h3 id="杂项">杂项</h3>
-<ol type="1">
-<li><p>完全图<span
-class="math inline">\(\rightarrow\)</span>补图</p></li>
-<li><p>奇环套奇环不可能生成奇环</p></li>
-<li><p>“存在一个” 一定要想着转换成 <span
-class="math inline">\(\rightarrow\)</span> “不存在，对于所有” (<span
-class="math inline">\(CF1517F\)</span>)</p>
-<blockquote>
-<p>本质上是存在性问题转化成限制问题</p>
-</blockquote></li>
-<li></li>
-</ol>
-<h3 id="二分图">二分图</h3>
-<ol type="1">
-<li><p>二分图小优化：每次如果没有发现一个可行的匹配，那么就不清空 <span
-class="math inline">\(vis\)</span> 数组</p>
-<blockquote>
-<p>下一次走到这里还是不匹配</p>
-</blockquote></li>
-<li><p>若一条边一定在最大匹配中，则在最终的残量网络中，这条边一定满流，且这条边的两个顶点一定不在同一个强连通分量中。（
-<span class="math inline">\(HAOI2017新型城市化\)</span>)</p></li>
-<li><p>无向图是不能用网络流求最小路径覆盖的。</p></li>
-<li><p>带权二分图匹配<span
-class="math inline">\(\rightarrow\)</span>不带权 (<span
-class="math inline">\(CF1728F\)</span>)</p></li>
-<li><p>并查集判断二分图</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; <span class="title">findf</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x == f[x])  <span class="keyword">return</span> <span class="built_in">make_pair</span>(x, <span class="number">0</span>);</span><br><span class="line">    pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt; ls = <span class="built_in">findf</span>(f[x]);</span><br><span class="line">    ls.second ^= g[x];</span><br><span class="line">    <span class="keyword">return</span> ls;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">merge</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> op = <span class="number">1</span>;</span><br><span class="line">    pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; ls;</span><br><span class="line">    ls = <span class="built_in">findf</span>(x);  </span><br><span class="line">    op ^= ls.second;</span><br><span class="line">    x = ls.first;</span><br><span class="line">    </span><br><span class="line">    ls = <span class="built_in">findf</span>(y);</span><br><span class="line">    op ^= ls.second;</span><br><span class="line">    y = ls.first;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">if</span> (x == y) <span class="keyword">return</span> op == <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (sze[x] &lt; sze[y])</span><br><span class="line">        <span class="built_in">swap</span>(x, y);</span><br><span class="line">    sze[x] += sze[y];</span><br><span class="line">    f[y] = x;</span><br><span class="line">    g[y] = op;</span><br><span class="line">    del[++cnt] = y;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>二分图最小字典序匹配通解：(<span
-class="math inline">\(P1963\)</span>)</p>
-<blockquote>
-<p>注意倒着匹配是会出问题的，只有在度数为2的时候才正确。</p>
-</blockquote>
-<p><img src="E:\3_disk_c\pics\1_3.png" alt="1_3" style="zoom: 67%;" /></p>
-<blockquote>
-<p>所以正确的通解是这样的：</p>
-<p>方法2：从前往后枚举，对于每一个点，从小到大假设它与谁匹配，如果它匹配后剩下的图仍能构成</p>
-<p>​ 完美匹配，就说明它可以与当前儿子匹配，删掉这个点与其匹配点。</p>
-<p>方法3：在算法 <span class="math inline">\(2\)</span>
-中，每假设当前点<span class="math inline">\(x\)</span>与某个点 <span
-class="math inline">\(y\)</span>
-匹配，就要对整个图跑一次二分图匹配，但实际上</p>
-<p>​
-大多点在这次匹配操作后是没有影响的。所以我们可以先在开始时对整个图跑一次二分图匹</p>
-<p>​ 配。经过分析，我们可以发现把 <span class="math inline">\(x\)</span>
-与 $y $匹配只会影响两个点：目前与 <span class="math inline">\(x\)</span>
-匹配的点与目前与 <span class="math inline">\(y\)</span></p>
-<p>​
-匹配的点。所以每次只用对影响的这两个点中的任意一个点跑一次增广路就可以了</p>
-</blockquote></li>
-<li></li>
-</ol>
-<h3 id="生成树">生成树</h3>
-<ol type="1">
-<li>有向图的最小生成树？按照高度为第一关键字，距离为第二关键字即可
-(<span class="math inline">\(SCOI2012\)</span>滑雪)</li>
-</ol>
-<h1 id="动态规划dp">动态规划DP</h1>
-<p>参见<span class="math inline">\(DP\)</span>科技树</p>
-<h1 id="序列liner">序列liner</h1>
-<ol type="1">
-<li><p>一些数，自选操作，问结果的和 (<span
-class="math inline">\(CF1743F\)</span>)</p>
-<blockquote>
-<p>单点贡献法，考虑每一种数，会对哪些结果产生影响</p>
-</blockquote></li>
-<li><p>给一些线段，问点<span class="math inline">\(1\rightarrow
-n\)</span>分别被哪些线段覆盖(<span
-class="math inline">\(CF1743F\)</span>)</p>
-<blockquote>
-<p><span class="math inline">\(x\rightarrow
-x+1\)</span>的过程，只会影响右端点在<span
-class="math inline">\(x\)</span>，左端点在<span
-class="math inline">\(x+1\)</span>的情况，每个线段被修改2次</p>
-</blockquote></li>
-<li><p><span class="math inline">\(n\)</span>对数,<span
-class="math inline">\((a_i,b_i)\)</span>，每一对数要么选<span
-class="math inline">\(a_i\)</span>要么选<span
-class="math inline">\(b_i\)</span>，问总共选<span
-class="math inline">\(k\)</span>个<span
-class="math inline">\(a_i\)</span>，<span
-class="math inline">\(n-k\)</span>个<span
-class="math inline">\(b_i\)</span>的最大值，<span
-class="math inline">\(k\in[0,n]\)</span>（<span
-class="math inline">\(CF1728E\)</span>)</p>
-<blockquote>
-<p>先选<span class="math inline">\(n\)</span>个<span
-class="math inline">\(b_i\)</span>，再加上堆里恰好<span
-class="math inline">\(k\)</span>个最大的<span
-class="math inline">\(a_i-b_i\)</span>，<span
-class="math inline">\(O(n)\)</span></p>
-</blockquote></li>
-<li><p>两个集合<span class="math inline">\(A,B\)</span>，<span
-class="math inline">\(A与B\)</span>一一对应，<span
-class="math inline">\(A\)</span>无序，<span
-class="math inline">\(B\)</span>要求有序，则可以不管<span
-class="math inline">\(B\)</span>的顺序，求完后再给<span
-class="math inline">\(B\)</span>排序就行。(<span
-class="math inline">\(CF1728F\)</span>)</p></li>
-<li><p>有 <span class="math inline">\(n+1\)</span> 个传送器，分别位于
-<span class="math inline">\(0,a_1,a_2,⋯,a_n\)</span>，可以从点 <span
-class="math inline">\(x\)</span> 传送到 <span
-class="math inline">\(y\)</span>，并且花费<span
-class="math inline">\((y-x)^2\)</span>，再整点安装额外传送器使得可以从
-<span class="math inline">\(0\)</span>传送到 <span
-class="math inline">\(a_n\)</span> 且花费少于 <span
-class="math inline">\(m\)</span>。最小化这个安装数量。(<span
-class="math inline">\(CF1661F\)</span>)</p>
-<blockquote>
-<p><span class="math inline">\(f(x,k)\)</span> 表示将长度为 <span
-class="math inline">\(x\)</span> 的段分为 <span
-class="math inline">\(k\)</span> 段所需的最小费用，有结论：</p>
-<p><span class="math inline">\(∀k∈[1,x]\)</span>，都有
-$f(x,k−1)−f(x,k)≥f(x,k)−f(k+1) $</p>
-</blockquote></li>
-<li><p><font color='red'><strong>最少能删除几个<span
-class="math inline">\(\rightarrow\)</span>最大能保留多少</strong></font></p></li>
-<li><p><font color='red'><strong>多个数取不同模的时候，可以想想所有模数的LCM，找找性质(<span
-class="math inline">\(CF498D\)</span>)</strong></font></p></li>
-<li><p><font color='red'><span
-class="math inline">\(max^{k≤r}_{k=l}a_k\)</span>，想到<span
-class="math inline">\(\rightarrow\)</span>单调队列，意义在于：找到左边右边第一个大于<span
-class="math inline">\(a_k\)</span>的数字(<span
-class="math inline">\(CF1677E\)</span>)</font></p></li>
-<li><p><font color='red'><strong><span class="math inline">\(q\)</span>
-次询问，每次给出 <span class="math inline">\(l,r\)</span>，问有多少个
-<span class="math inline">\(i,j\)</span> 满足 <span
-class="math inline">\(l≤i≤j≤r\)</span>且区间 <span
-class="math inline">\([i,j]\)</span> 是好的</strong></font></p>
-<blockquote>
-<p>离线下来扫描线，具体的，设当前枚举右端点为 <span
-class="math inline">\(r\)</span>，那么 <span
-class="math inline">\(s_l\)</span> 是 <span
-class="math inline">\([l,l],[l,l+1],...,[l,r]\)</span>里好的区间的数目。这样当
-<span class="math inline">\(r=R\)</span> 时，直接求当前 <span
-class="math inline">\(s_L+...+s_R\)</span>，就是询问 <span
-class="math inline">\([L,R]\)</span> 的答案。</p>
-</blockquote></li>
-<li><p>集合内<span
-class="math inline">\(DP\)</span>，但无法记录仪当前已经用过的数的状况，考虑连通块<span
-class="math inline">\(DP\)</span>（<span
-class="math inline">\(CF840C\)</span>)</p></li>
-<li><p>给定<span class="math inline">\(n\)</span>个数，<span
-class="math inline">\(a_1,a_2,a_3...\)</span>，每次选定任意<span
-class="math inline">\(k\)</span>个数<span
-class="math inline">\(-1\)</span>，最后变成全<span
-class="math inline">\(0\)</span>，那么只要满足<span
-class="math inline">\(max(a_i)\le
-\frac{sum}{k}\)</span>，具体可用数学归纳法证明。</p></li>
-<li><p>极差最小化？<span class="math inline">\(\rightarrow\)</span>
-双指针（<span class="math inline">\(CF1574E\)</span>)</p></li>
-<li><p>相互限制问题，可以转化成拓扑<span
-class="math inline">\(top\)</span>排序</p></li>
-<li><p>涉及到前缀和计数的题目，往<span
-class="math inline">\(trie\)</span>树和子树关系上面去思考</p></li>
-<li><p>如果多次询问划开了原来的分组方式，可以考虑每个点可以拓展的区间，再区间求<span
-class="math inline">\(max\)</span>或者取<span
-class="math inline">\(min\)</span>以达到多次询问在线反应的效果 (<span
-class="math inline">\(CF1516D\)</span>)</p></li>
-<li><p><font color='red'>问一个区间多少种数？<strong>HH的项链</strong>，而且树状数组大小<strong>不是值域！！！是<span
-class="math inline">\(n\)</span>！！！</strong> (<span
-class="math inline">\(CF980D\)</span>)</font></p></li>
-<li><p>序列而且两两交换，不好<span
-class="math inline">\(DP\)</span>，可以考虑<strong>置换群</strong>
-(<span class="math inline">\(CF441D\)</span>)</p></li>
-<li><p>快速计算当前连通块个数，每次合并如果成功则<span
-class="math inline">\(N--\)</span>，否则<span
-class="math inline">\(N\)</span>不变。(<span
-class="math inline">\(CF1039C\)</span>)</p></li>
-<li><p>若干区间，单点<span
-class="math inline">\(+1\)</span>，问哪些区间在哪些时刻达到<span
-class="math inline">\(a[i].k\)</span> (<span
-class="math inline">\(CF\)</span> <span
-class="math inline">\(GYM\)</span> <span
-class="math inline">\(104065\)</span> <span
-class="math inline">\(B\)</span>)</p>
-<blockquote>
-<p>值域分块，每单点加<span
-class="math inline">\(\sqrt{n}\)</span>，将距离<span
-class="math inline">\(a[i].k&lt;
-\sqrt{n}\)</span>的区间加入线段树，在下一个<span
-class="math inline">\(\sqrt{n}\)</span>之前单点修改，直到为<span
-class="math inline">\(0\)</span></p>
-</blockquote></li>
-<li><p><font color='red'><strong>给定<span
-class="math inline">\(01\)</span>序列，区间求连续的<span
-class="math inline">\(1\)</span>段 （<span
-class="math inline">\(LXL讲课\)</span>)</strong></font></p>
-<blockquote>
-<ol type="1">
-<li><p>统计有多少<span class="math inline">\(01\)</span></p></li>
-<li><p>统计有多少<span class="math inline">\(11\)</span>，然后所有<span
-class="math inline">\(1\)</span>的个数减去连续<span
-class="math inline">\(11\)</span>的个数</p></li>
-</ol>
-</blockquote></li>
-<li><p>求第 k 大的距离 (<span
-class="math inline">\(JOISC道路の建設案\)</span>)</p>
-<blockquote>
-<p>二分答案，然后计算距离 <span class="math inline">\(≤dis\)</span>
-的点对数</p>
-</blockquote></li>
-<li><p>区间加，区间开根号 （<span
-class="math inline">\(UOJ228\)</span>)</p>
-<blockquote>
-<p>记录区间内<span
-class="math inline">\(max,min\)</span>，开根号时，判断<span
-class="math inline">\(min-\sqrt min\)</span>是否等于<span
-class="math inline">\(max-\sqrt
-max\)</span>，如果等于，等价于区间加一个负数值，如果不等直接继续递归</p>
-<p>原因在于开根会导致极差除以<span class="math inline">\(\sqrt max+\sqrt
-min\)</span>，这样每个区间最多会进行<span
-class="math inline">\(log\)</span>次修改，一次区间加，会导致<span
-class="math inline">\(logn\)</span>个区间加1e5，所以总复杂度<span
-class="math inline">\(O(nlog^2n)\)</span></p>
-</blockquote></li>
-<li><p>集合内点两两之间最大距离，可以考虑按照<span
-class="math inline">\(2\)</span>进制位数<span
-class="math inline">\(0,1\)</span>分<span
-class="math inline">\(log\)</span>次，每次求两个集合之间的最大值 ( <span
-class="math inline">\(GX/GZOI2019旅行者 P5304\)</span>)</p></li>
-<li><p>给定序列，支持序列中元素插入到最后或最前。(<span
-class="math inline">\(CF1288E\)</span>)</p>
-<blockquote>
-<p>在最前或最后直接新建若干空位置即可</p>
-</blockquote></li>
-<li><p>维护一个数前面有多少个数。(<span
-class="math inline">\(CF1288E\)</span>)</p>
-<blockquote>
-<p>将有数的位置赋值为<span
-class="math inline">\(1\)</span>求前缀和即可</p>
-</blockquote></li>
-<li><p>状压<span
-class="math inline">\(DP\)</span>可以考虑记忆化降低复杂度</p></li>
-<li><p>本质不同？可以将相同的值加以区分（<span
-class="math inline">\(P7448\)</span>)</p></li>
-<li><p><font color='red'><strong>连通块个数=黑点个数减去相邻黑点个数</strong>
-(<span class="math inline">\(agc003F\)</span>)</font></p></li>
-<li><p><font color='red'><strong>多边形内，端点在边界，和切割相关</strong></font></p>
-<blockquote>
-<p><font color='red'><strong>想到门槛模型，断环成连，变成区间之间的问题。</strong></font></p>
-</blockquote></li>
-<li><p><span class="math inline">\(sumxor[l,r]=sumxor[1,r]\quad xor
-\quad sumxor[1,l-1]\)</span>。</p></li>
-<li><p>求最大<span
-class="math inline">\(k\)</span>个有序对，等价于求<span
-class="math inline">\(2\times k\)</span>个无序对。</p></li>
-<li><p><span
-class="math inline">\(n\)</span>个集合，每个集合若干个数，取总集合前<span
-class="math inline">\(k\)</span>大，<span
-class="math inline">\(n\)</span>很大</p>
-<blockquote>
-<p>异或粽子经典做法，每次都选每个集合的最大值，把选了最大值得集合求次大值.....以此类推</p>
-</blockquote></li>
-<li><p>对若干次操作后的集合内元素求和：<span
-class="math inline">\(f_i\)</span>表示操作后<span
-class="math inline">\(\ge i\)</span>的数的数量和，那么答案就是<span
-class="math inline">\(\sum_{i=1}^{m} f_i\)</span></p></li>
-<li><p>对所有情况求出总和或者每种情况，想差分（<span
-class="math inline">\(CF1517F\)</span> <span
-class="math inline">\(ARC139D\)</span>)</p></li>
-<li><p>子序列问题可以通过证明不交转化成区间问题 (<span
-class="math inline">\(CF1610G\)</span>)</p></li>
-<li><p>淘汰赛<span class="math inline">\(n\)</span>个人，每次<span
-class="math inline">\(k\)</span>个人比赛，那么树高最高是<span
-class="math inline">\(\frac{n}{k}\)</span>。</p></li>
-<li><p>给你两个可重集 <span class="math inline">\(A,B\)</span>，<span
-class="math inline">\(A,B\)</span> 的元素个数都为 <span
-class="math inline">\(n\)</span>，它们中每个元素的大小 <span
-class="math inline">\(x∈[1,n]\)</span>。请你分别找出 <span
-class="math inline">\(A,B\)</span>
-的子集，使得它们中的元素之和相等，试证明对于任意序列都存在解。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://imgse.com/i/pp1BQmR"><img
-src="https://s1.ax1x.com/2023/03/15/pp1BQmR.png"
-alt="pp1BQmR.png" /></a></p>
-</blockquote></li>
-</ol>
-<h1 id="组合数">组合数</h1>
-<ol type="1">
-<li><p><span
-class="math inline">\(C_{l}^2+C_{l}^4+C_{l}^6+C_{l}^8......=2^{l-1}\)</span></p></li>
-<li><p>逆元预处理</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fact[<span class="number">0</span>]=infact[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">   fact[i]=(ll)i*fact[i<span class="number">-1</span>]%mod;</span><br><span class="line">infact[n]=<span class="built_in">quick_mi</span>(fact[n],mod<span class="number">-2</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=n<span class="number">-1</span>;i&gt;=<span class="number">1</span>;i--)</span><br><span class="line">   infact[i]=(ll)infact[i+<span class="number">1</span>]*(i+<span class="number">1</span>)%mod;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="关于2">关于2</h1>
-<h3 id="位运算">位运算</h3>
-<p>​ 1. <span class="math inline">\(i和i+1\)</span>只会存在倒数<span
-class="math inline">\(1\rightarrow lowbit(i+1)\)</span>这几位不同 (<span
-class="math inline">\(CF1716E\)</span>)</p>
-<h3 id="二叉树">二叉树</h3>
-<ol type="1">
-<li>二叉树，线段树，每一层序号连续，层与层序号连续 (<span
-class="math inline">\(CF1716E\)</span>)</li>
-</ol>
-<h3 id="线性基">线性基</h3>
-<ol type="1">
-<li><p>原序列中任意一个数都可以由线性基中的若干个数异或出来</p></li>
-<li><p>线行基中的数的个数唯一确定，且数的个数最少</p>
-<blockquote>
-<p>考虑先插入<span class="math inline">\(d1,d2,d3\)</span>后<span
-class="math inline">\(x\)</span>无法插入，那么插入<span
-class="math inline">\(d1,d2,x\)</span>后<span
-class="math inline">\(d3\)</span>无法插入</p>
-</blockquote></li>
-<li><p>线性基求最大值，从高到低位贪心</p></li>
-<li><p>线性基合并，假如有<span class="math inline">\(S1\)</span>和<span
-class="math inline">\(S2\)</span>合并，那么先完全插入<span
-class="math inline">\(S1\)</span>,再按照普通插入方式依次插入<span
-class="math inline">\(S2\)</span>即可</p></li>
-</ol>
-<h1 id="数据结构">数据结构</h1>
-<h3 id="树链剖分">树链剖分</h3>
-<ol type="1">
-<li><p>问一条路径上相同颜色的颜色段数量，边两端颜色相同的边的数量，最好有序(<span
-class="math inline">\(P7735,P2486\)</span>)</p>
-<blockquote>
-<p>维护一个结构体，存左端点颜色，右端点颜色，中间的答案】</p>
-<p>具体写法：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">range_query</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span></span>&#123;</span><br><span class="line">	<span class="type">bool</span> flg=<span class="number">0</span>;<span class="comment">//flg表示当前答案应归到哪边，0为ans1,1为ans2 </span></span><br><span class="line">	Node h,ans1=(Node)&#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line"> Node ans2=(Node)&#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line">	<span class="keyword">while</span>(topf[x]!=topf[y])&#123;</span><br><span class="line">		<span class="type">int</span> tx=topf[x],ty=topf[y];</span><br><span class="line">		<span class="keyword">if</span>(deep[topf[x]]&lt;deep[topf[y]])&#123; </span><br><span class="line">         flg=!flg;</span><br><span class="line">         <span class="built_in">swp</span>(topf[x],topf[y]);</span><br><span class="line">         <span class="built_in">swp</span>(x,y);</span><br><span class="line">    	&#125;</span><br><span class="line">		<span class="comment">//记得同时取反flg </span></span><br><span class="line">		h=sgtree.<span class="built_in">query</span>(idx[topf[x]],idx[x],<span class="number">1</span>,n,<span class="number">1</span>);</span><br><span class="line">		<span class="comment">//一定注意：每次的查询h，一定是左端点在深度小的地方，</span></span><br><span class="line">		<span class="comment">//右端点在深度大的地方，所以千万不能把左右端点合并错 </span></span><br><span class="line">		<span class="keyword">if</span>(flg)</span><br><span class="line">		    ans2=(Node)&#123;</span><br><span class="line">				h.lc,ans2.rc,ans2.cnt+h.cnt+(ans2.lc==h.rc)</span><br><span class="line">			&#125;;</span><br><span class="line">		<span class="comment">//ans2情况 </span></span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			ans1=(Node)&#123;</span><br><span class="line">				ans1.lc,h.lc,ans1.cnt+h.cnt+(ans1.rc==h.rc)</span><br><span class="line">			&#125;;</span><br><span class="line">		<span class="comment">//ans1情况 </span></span><br><span class="line">		x=fa[topf[x]];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(deep[x]&lt;deep[y])&#123;<span class="built_in">swp</span>(x,y);flg=!flg;&#125;</span><br><span class="line">	h=sgtree.<span class="built_in">query</span>(idx[y],idx[x],<span class="number">1</span>,n,<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">if</span>(flg)</span><br><span class="line">	    ans2=(Node)&#123;</span><br><span class="line">			h.lc,ans2.rc,ans2.cnt+h.cnt+(ans2.lc==h.rc)</span><br><span class="line">		&#125;;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		ans1=(Node)&#123;</span><br><span class="line">			ans1.lc,h.lc,ans1.cnt+h.cnt+(ans1.rc==h.rc)</span><br><span class="line">		&#125;;</span><br><span class="line">	<span class="comment">//末处理 </span></span><br><span class="line">	<span class="keyword">return</span> ans1.cnt+ans2.cnt+(ans1.rc==ans2.lc);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</blockquote></li>
-<li><p>当遇到边权转点权的时候，不能更新到<span
-class="math inline">\(LCA(X,Y)\)</span>，具体处理方法如下</p>
-<blockquote>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">C</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y,<span class="type">int</span> k)</span></span>&#123;</span><br><span class="line"> <span class="type">int</span> tx=top[x],ty=top[y];</span><br><span class="line"> <span class="keyword">while</span>(tx!=ty)&#123;</span><br><span class="line">     <span class="keyword">if</span>(dep[tx]&lt;dep[ty]) <span class="built_in">swap</span>(x,y),<span class="built_in">swap</span>(tx,ty);</span><br><span class="line">     <span class="built_in">change</span>(<span class="number">1</span>,<span class="number">1</span>,n,id[tx],id[x],k);</span><br><span class="line">     x=fa[tx],tx=top[x];</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">if</span>(x!=y) &#123;</span><br><span class="line">     <span class="keyword">if</span>(id[x]&gt;id[y]) <span class="built_in">swap</span>(x,y);</span><br><span class="line">     <span class="built_in">change</span>(<span class="number">1</span>,<span class="number">1</span>,n,id[x]+<span class="number">1</span>,id[y],k);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</blockquote></li>
-<li><p>遇到额外边问题，多想想对于连成环的树边的影响(<span
-class="math inline">\(P4374\)</span>)</p></li>
-<li></li>
-</ol>
-<h3 id="莫队">莫队</h3>
-<figure>
-<img src="E:\3_disk_c\pics\屏幕截图%202023-02-14%20092026.png"
-alt="屏幕截图 2023-02-14 092026" />
-<figcaption aria-hidden="true">屏幕截图 2023-02-14 092026</figcaption>
-</figure>
-<h3 id="分块">分块</h3>
-<ol type="1">
-<li>遇到要区间集体右移左移，可以考虑分块，每一个块维护一个<span
-class="math inline">\(stl\)</span>,例如<span
-class="math inline">\(deque\)</span> （<span
-class="math inline">\(CF455D\)</span>)</li>
-<li></li>
-</ol>
-<h1 id="网络流">网络流</h1>
-<h3 id="建图技巧">建图技巧</h3>
-<ol type="1">
-<li></li>
-</ol>
-<h1 id="stl">STL</h1>
-<h3 id="要注意的">要注意的</h3>
-<ol type="1">
-<li><p><span
-class="math inline">\(deque\)</span>是支持中间插入的，(<span
-class="math inline">\(insert\)</span>函数)</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deque&lt;<span class="type">int</span>&gt;::iterator it=deq.<span class="built_in">insert</span>(deq.<span class="built_in">begin</span>()+len,<span class="number">10</span>);</span><br></pre></td></tr></table></figure></li>
-<li><p><span class="math inline">\(prev\)</span>函数，<span
-class="math inline">\(prev(iterator,dis)\)</span>返回距离<span
-class="math inline">\(iterator\)</span>左侧<span
-class="math inline">\(dis\)</span>个距离的迭代器。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">std::list&lt;<span class="type">int</span>&gt; mylist&#123; <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span> &#125;;</span><br><span class="line">std::list&lt;<span class="type">int</span>&gt;::iterator it = mylist.<span class="built_in">end</span>();</span><br><span class="line">    <span class="comment">//获取一个距离 it 迭代器 2 个元素的迭代器，由于 2 为正数，newit 位于 it 左侧</span></span><br><span class="line"><span class="keyword">auto</span> newit = <span class="built_in">prev</span>(it, <span class="number">2</span>);</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;prev(it, 2) = &quot;</span> &lt;&lt; *newit &lt;&lt; endl;</span><br><span class="line">    <span class="comment">//n为负数，newit 位于 it 右侧</span></span><br><span class="line">it = mylist.<span class="built_in">begin</span>();</span><br><span class="line">newit = <span class="built_in">prev</span>(it, <span class="number">-2</span>);</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;prev(it, -2) = &quot;</span> &lt;&lt; *newit;</span><br></pre></td></tr></table></figure></li>
-<li><p>离散化板子要记牢</p></li>
-</ol>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sort</span>(lsh+<span class="number">1</span>,lsh+n+<span class="number">1</span>);</span><br><span class="line">cnt=<span class="built_in">unique</span>(lsh+<span class="number">1</span>,lsh+n+<span class="number">1</span>)-lsh<span class="number">-1</span>;</span><br><span class="line"><span class="comment">//unique指向的是第一个重复的元素，所以剔除重复元素需要-1</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	num[i]=<span class="built_in">lower_bound</span>(lsh+<span class="number">1</span>,lsh+cnt+<span class="number">1</span>,num[i])-lsh;</span><br></pre></td></tr></table></figure>
-<ol start="4" type="1">
-<li></li>
-</ol>
-<h3 id="更高级的应用">更高级的应用</h3>
-<h1 id="二维数点">二维数点</h1>
-<p>注意，这里的<span
-class="math inline">\(x,y\)</span>都是二维平面，不是二维数组，特殊情况会附加说明。</p>
-<ol type="1">
-<li><p>多次询问，每次询问<span
-class="math inline">\(y\in[1,z],x\in[l,r]，min(f[x][y])\)</span>。</p>
-<blockquote>
-<p>对<span
-class="math inline">\(x\)</span>做扫描线，从1开始扫描，往上扫描，每次将<span
-class="math inline">\(x=i\)</span>与线段树原有点取min，然后当<span
-class="math inline">\(i=z\)</span>的时候，线段树询问<span
-class="math inline">\(l\rightarrow r\)</span>区间的<span
-class="math inline">\(min\)</span>即可</p>
-</blockquote>
-<p><img src="E:\3_disk_c\pics\1_1.png" alt="1_1" style="zoom: 67%;" /></p></li>
-<li><p>多次询问，每次询问一个矩形内最小的数。</p>
-<blockquote>
-<p>二位线段树（第二维动态开点）</p>
-</blockquote></li>
-<li><p>有<span class="math inline">\(2n\)</span>个点对<span
-class="math inline">\((x_i,y_i)\)</span>，每个点有权值<span
-class="math inline">\(v_i\)</span>，每次给定区间<span
-class="math inline">\(l,r\)</span>，求<span
-class="math inline">\(min_{l\le xi,yi \le r} v_i\)</span> （<span
-class="math inline">\(CF1635C\)</span>)</p>
-<blockquote>
-<p>也是普通二位数点，做法：将询问挂在右端点，扫描线，到达右端点后直接区间查询线段树，单点更新以当前点为右端点的点对。</p>
-</blockquote></li>
-<li><p>两棵树，每个点在两棵树上的位置不同，问既在第一棵树的<span
-class="math inline">\(a\)</span>子树内，又在第二棵树的<span
-class="math inline">\(b\)</span>子树内的点的个数 (<span
-class="math inline">\(模拟赛20\)</span>)</p>
-<blockquote>
-<p>转化成每个点有两个属性<span
-class="math inline">\(a,b\)</span>，分别表示在第一个树和第二个树上的<span
-class="math inline">\(dfn\)</span>序，就变成标准长方形数点问题了</p>
-<p>其实也可以不使用二维数点，将在第一棵树的<span
-class="math inline">\(u\)</span>子树的答案差分一下，变成答案减去在扫描到<span
-class="math inline">\(in[u]-1\)</span>的时候已经存在于第二棵树的<span
-class="math inline">\(v\)</span>子树的点，再加上扫描到<span
-class="math inline">\(ed[u]\)</span>的时候存在于子树<span
-class="math inline">\(v\)</span>内的点即可。</p>
-</blockquote>
-<p><img src="E:\3_disk_c\pics\1_2.png" alt="1_2" style="zoom:80%;" /></p></li>
-</ol>
-<h1 id="复杂度">复杂度</h1>
-<ol type="1">
-<li><p>树上启发式合并（堆）是，<span
-class="math inline">\(O(nlogn^2)\)</span></p></li>
-<li><p><span
-class="math inline">\(\frac{x}{1}+\frac{x}{2}+\frac{x}{3}+.....+\frac{x}{x}=O(xlogx)\)</span></p></li>
-<li><p><span class="math inline">\(\sqrt n+\sqrt \frac{n}{2}+\sqrt
-\frac{n}{4}+\sqrt \frac{n}{8}+....=\sqrt n\)</span></p></li>
-</ol>
-<h1 id="题意转化">题意转化</h1>
-<ol type="1">
-<li>求所有方案的操作数之和，可以考虑对称性（<span
-class="math inline">\(CF1193A\)</span>)</li>
-<li>序列上<span class="math inline">\(i\rightarrow
-a[i]\)</span>立马想到基环树</li>
-</ol>
-<h1 id="网格图问题">网格图问题</h1>
-<ol type="1">
-<li><p>给定若干个矩形，然后求每个点被覆盖到的矩形集合中，左边界最靠左的那一个是谁（下同理）</p>
-<blockquote>
-<p>考虑在加入一个矩形的时候，对于这个矩形的右边界，将所有右边界的<span
-class="math inline">\(L\)</span>值更新为左边界的横坐标值，最后从右往左扫描一遍，每次<span
-class="math inline">\(dp[i][j]=min(dp[i][j],dp[i+1][j])\)</span>即可，当然初始化的时候肯定是自己</p>
-</blockquote></li>
-<li><p>网格多米诺问题：状压倒数一行或者倒数一二行。</p></li>
-</ol>
-<h1 id="杂项-1">杂项</h1>
-<h3 id="平方数相关">平方数相关</h3>
-<ol type="1">
-<li>相同的数相乘是平方数，考虑把两个数分别分解成平方数乘常数(<span
-class="math inline">\(CF840C\)</span>)</li>
-<li><span class="math inline">\(\prod ^{2k}_{i=1}i!=\prod
-^{k}_{i=1}\left( 2i\right) !\times \left( 2i-1\right)!=\left( \prod
-^{k}_{i=1}\left( 2i-1\right) !\right) ^{2}\times 2^{k}\times
-k!\)</span></li>
-<li>快速判断是否是平方数：给每一个质因子赋一个随机值，如果一个数的所有质因子的<span
-class="math inline">\(hash\)</span>结果是<span
-class="math inline">\(0\)</span>则是平方数</li>
-<li><span class="math inline">\(a\times b\)</span>如果炸了，考虑<span
-class="math inline">\(log(a\times b)=log(a)+log(b)\)</span></li>
-</ol>
-<h3 id="约数相关">约数相关</h3>
-<ol type="1">
-<li>涉及到枚举<span class="math inline">\(x\in [1,n],y\in[1,n],x\times
-y=z\)</span>，可以考虑转向枚举<span
-class="math inline">\(z\)</span>的因数，降低复杂度(<span
-class="math inline">\(CF1677E\)</span>)</li>
-<li></li>
-</ol>
-<h1 id="一些杂题">一些杂题</h1>
-<ul>
-<li>CF1574E</li>
-<li>CF1633F</li>
-<li>CF1651E</li>
-<li>CF1644F</li>
-<li>CF1697E</li>
-<li>CF1519E</li>
-<li>CF1519F</li>
-<li>CF1469E</li>
-<li>CF1455E</li>
-<li>P7561</li>
-<li>CF1278E</li>
-<li>CF1487F</li>
-</ul>
-<h1 id="特殊题型">特殊题型</h1>
-<h3 id="times-n格子问题"><span class="math inline">\(2\times
-n\)</span>格子问题</h3>
-<ul>
-<li>CF1739E</li>
-</ul>
-<h3 id="全局计算问题-lin1nrin1n">全局计算问题 (<span
-class="math inline">\(l\in[1,n]，r\in[1,n]\)</span>)</h3>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/23/DS%E9%A2%98%E7%9B%AE%EF%BC%88%E5%9F%BA%E7%A1%80%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1984,6 +1344,646 @@ class="math inline">\(S\)</span> 中的每一位都是在 <span
 class="math inline">\(0\)</span> 和 <span
 class="math inline">\(1\)</span> 之间随机产生的。</p>
 </blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/23/%E5%A5%97%E8%B7%AF%E9%A2%98%E7%9B%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="starslight">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/03/23/%E5%A5%97%E8%B7%AF%E9%A2%98%E7%9B%AE/" class="post-title-link" itemprop="url">套路题目</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2023-03-23 00:00:00 / Modified: 22:43:02" itemprop="dateCreated datePublished" datetime="2023-03-23T00:00:00+08:00">2023-03-23</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="树">树</h1>
+<h3 id="思维技巧">思维技巧</h3>
+<ol type="1">
+<li><p>将树上所有到从 <span class="math inline">\(u\)</span> 到 <span
+class="math inline">\(v\)</span> 的路径的距离不超过$ d <span
+class="math inline">\(的点的点权加上\)</span> k$，单点询问</p>
+<blockquote>
+<p>再链上，边<span class="math inline">\(u\rightarrow
+v\)</span>，距离<span class="math inline">\(v\)</span>,为<span
+class="math inline">\(k-1\)</span>的被距离<span
+class="math inline">\(u\)</span>，为<span
+class="math inline">\(k\)</span>的覆盖，所以只用考虑距离每个点子树内恰好为<span
+class="math inline">\(k\)</span>，继续树上差分，开d颗树状数组，<span
+class="math inline">\(bit[k][out[u]]-bit[k][in[u]-1]\)</span>表示给<span
+class="math inline">\(u\)</span>的深度k加上这个值，然后考虑从<span
+class="math inline">\(lca\)</span>向上走的贡献，记录<span
+class="math inline">\(f[u][dis]\)</span>表示<span
+class="math inline">\(u\)</span>对子树内距离不超过<span
+class="math inline">\(dis\)</span>加的值，再删除<span
+class="math inline">\(f[fa[u]][dis-2]\)</span>，在<span
+class="math inline">\(x\)</span>跳<span
+class="math inline">\(fa\)</span>的时候</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(ri i=<span class="number">0</span>;i&lt;=<span class="number">20</span>&amp;&amp;x;i++) &#123;</span><br><span class="line">	res+=fen[i].<span class="built_in">rangequery</span>(in[x],out[x]);</span><br><span class="line">	<span class="keyword">for</span>(ri j=dis;j&lt;=<span class="number">20</span>;j++)res+=f[x][j];</span><br><span class="line">	++dis;</span><br><span class="line"> 	x=father[x];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即可</p>
+</blockquote></li>
+<li><p>$u $到 $v $的简单路径上的所有点点权异或和 <span
+class="math inline">\(=0\)</span> (<span
+class="math inline">\(CF1709E\)</span>)</p>
+<blockquote>
+<p>令 <span class="math inline">\(au\)</span> 表示 <span
+class="math inline">\(u\)</span> 的点权，<span
+class="math inline">\(du\)</span> 表示树上 <span
+class="math inline">\(1\)</span> 到 <span
+class="math inline">\(u\)</span> 简单路径上所有点的点权异或和。</p>
+<p>等价于 <span
+class="math inline">\(du⊕dv⊕alca(u,v)=0\)</span>，然后考虑只修改<span
+class="math inline">\(alca(u,v)\)</span>就可以了</p>
+</blockquote></li>
+<li><p>多次考虑一颗子树的贡献，那么可以转化成一个点对其到根的链上的点的贡献(<span
+class="math inline">\(P3925\)</span>)</p></li>
+<li><p>一条边两端的选点问题<span
+class="math inline">\(\rightarrow\)</span>边与点配对</p></li>
+<li><p>树上<span class="math inline">\(LIS\)</span>问题</p>
+<blockquote>
+<p>参考<span class="math inline">\(CF490F\)</span></p>
+</blockquote></li>
+<li><p>一棵树的直径的中点唯一</p></li>
+<li><p>树上联通合并的时候，新的连通块直径只能是<span
+class="math inline">\(4\)</span>个端点中的两个</p></li>
+<li><p>求子树外，倍增<span
+class="math inline">\(dfn\)</span>序列，那么就是连续区间了。</p></li>
+<li><p>节点带颜色，考虑动态开点或者总共<span
+class="math inline">\(O(n)\)</span>的算法或数据结构</p></li>
+<li><p>树上贪心：一般从叶子节点开始贪心，才能保证最优。</p></li>
+</ol>
+<h1 id="图论">图论</h1>
+<h3 id="最短路">最短路</h3>
+<ol type="1">
+<li><strong>两点间最短路径是简单路径，不会有环路</strong> (<span
+class="math inline">\(SCOI2009\)</span>最长路径)</li>
+<li>求两个环之间长度的差值，正向边<span
+class="math inline">\(1\)</span>，反向边<span
+class="math inline">\(-1\)</span>，(<span
+class="math inline">\(NOI2008\)</span>假面舞会)</li>
+<li></li>
+</ol>
+<h3 id="图论模型转化">图论(模型)转化</h3>
+<ol type="1">
+<li><p>$ ∑<em>{i∈E}w_i−max</em>{⁡i∈E}w_i+min⁡{i∈E}w_i$</p>
+<blockquote>
+<p>权值最大不计数，权值最小双计数，问最短距离。</p>
+<p>跑分层图</p>
+</blockquote></li>
+<li></li>
+</ol>
+<h3 id="优化建图">优化建图</h3>
+<ol type="1">
+<li>有关<span
+class="math inline">\(GCD\)</span>或者倍数关系的建图，一定要往完全图<span
+class="math inline">\(\rightarrow\)</span>树的方向想，例如说：两两<span
+class="math inline">\(gcd=a\)</span>的连边，那么可以，<span
+class="math inline">\(a\rightarrow 2\times a,a\rightarrow 3 \times a
+....\)</span>连边，连通性一定满足，大小为<span
+class="math inline">\(O(nlogn)\)</span></li>
+</ol>
+<h3 id="杂项">杂项</h3>
+<ol type="1">
+<li><p>完全图<span
+class="math inline">\(\rightarrow\)</span>补图</p></li>
+<li><p>奇环套奇环不可能生成奇环</p></li>
+<li><p>“存在一个” 一定要想着转换成 <span
+class="math inline">\(\rightarrow\)</span> “不存在，对于所有” (<span
+class="math inline">\(CF1517F\)</span>)</p>
+<blockquote>
+<p>本质上是存在性问题转化成限制问题</p>
+</blockquote></li>
+<li></li>
+</ol>
+<h3 id="二分图">二分图</h3>
+<ol type="1">
+<li><p>二分图小优化：每次如果没有发现一个可行的匹配，那么就不清空 <span
+class="math inline">\(vis\)</span> 数组</p>
+<blockquote>
+<p>下一次走到这里还是不匹配</p>
+</blockquote></li>
+<li><p>若一条边一定在最大匹配中，则在最终的残量网络中，这条边一定满流，且这条边的两个顶点一定不在同一个强连通分量中。（
+<span class="math inline">\(HAOI2017新型城市化\)</span>)</p></li>
+<li><p>无向图是不能用网络流求最小路径覆盖的。</p></li>
+<li><p>带权二分图匹配<span
+class="math inline">\(\rightarrow\)</span>不带权 (<span
+class="math inline">\(CF1728F\)</span>)</p></li>
+<li><p>并查集判断二分图</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; <span class="title">findf</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x == f[x])  <span class="keyword">return</span> <span class="built_in">make_pair</span>(x, <span class="number">0</span>);</span><br><span class="line">    pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt; ls = <span class="built_in">findf</span>(f[x]);</span><br><span class="line">    ls.second ^= g[x];</span><br><span class="line">    <span class="keyword">return</span> ls;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">merge</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> op = <span class="number">1</span>;</span><br><span class="line">    pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; ls;</span><br><span class="line">    ls = <span class="built_in">findf</span>(x);  </span><br><span class="line">    op ^= ls.second;</span><br><span class="line">    x = ls.first;</span><br><span class="line">    </span><br><span class="line">    ls = <span class="built_in">findf</span>(y);</span><br><span class="line">    op ^= ls.second;</span><br><span class="line">    y = ls.first;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">if</span> (x == y) <span class="keyword">return</span> op == <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (sze[x] &lt; sze[y])</span><br><span class="line">        <span class="built_in">swap</span>(x, y);</span><br><span class="line">    sze[x] += sze[y];</span><br><span class="line">    f[y] = x;</span><br><span class="line">    g[y] = op;</span><br><span class="line">    del[++cnt] = y;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>二分图最小字典序匹配通解：(<span
+class="math inline">\(P1963\)</span>)</p>
+<blockquote>
+<p>注意倒着匹配是会出问题的，只有在度数为2的时候才正确。</p>
+</blockquote>
+<p><img src="E:\3_disk_c\pics\1_3.png" alt="1_3" style="zoom: 67%;" /></p>
+<blockquote>
+<p>所以正确的通解是这样的：</p>
+<p>方法2：从前往后枚举，对于每一个点，从小到大假设它与谁匹配，如果它匹配后剩下的图仍能构成</p>
+<p>​ 完美匹配，就说明它可以与当前儿子匹配，删掉这个点与其匹配点。</p>
+<p>方法3：在算法 <span class="math inline">\(2\)</span>
+中，每假设当前点<span class="math inline">\(x\)</span>与某个点 <span
+class="math inline">\(y\)</span>
+匹配，就要对整个图跑一次二分图匹配，但实际上</p>
+<p>​
+大多点在这次匹配操作后是没有影响的。所以我们可以先在开始时对整个图跑一次二分图匹</p>
+<p>​ 配。经过分析，我们可以发现把 <span class="math inline">\(x\)</span>
+与 $y $匹配只会影响两个点：目前与 <span class="math inline">\(x\)</span>
+匹配的点与目前与 <span class="math inline">\(y\)</span></p>
+<p>​
+匹配的点。所以每次只用对影响的这两个点中的任意一个点跑一次增广路就可以了</p>
+</blockquote></li>
+<li></li>
+</ol>
+<h3 id="生成树">生成树</h3>
+<ol type="1">
+<li>有向图的最小生成树？按照高度为第一关键字，距离为第二关键字即可
+(<span class="math inline">\(SCOI2012\)</span>滑雪)</li>
+</ol>
+<h1 id="动态规划dp">动态规划DP</h1>
+<p>参见<span class="math inline">\(DP\)</span>科技树</p>
+<h1 id="序列liner">序列liner</h1>
+<ol type="1">
+<li><p>一些数，自选操作，问结果的和 (<span
+class="math inline">\(CF1743F\)</span>)</p>
+<blockquote>
+<p>单点贡献法，考虑每一种数，会对哪些结果产生影响</p>
+</blockquote></li>
+<li><p>给一些线段，问点<span class="math inline">\(1\rightarrow
+n\)</span>分别被哪些线段覆盖(<span
+class="math inline">\(CF1743F\)</span>)</p>
+<blockquote>
+<p><span class="math inline">\(x\rightarrow
+x+1\)</span>的过程，只会影响右端点在<span
+class="math inline">\(x\)</span>，左端点在<span
+class="math inline">\(x+1\)</span>的情况，每个线段被修改2次</p>
+</blockquote></li>
+<li><p><span class="math inline">\(n\)</span>对数,<span
+class="math inline">\((a_i,b_i)\)</span>，每一对数要么选<span
+class="math inline">\(a_i\)</span>要么选<span
+class="math inline">\(b_i\)</span>，问总共选<span
+class="math inline">\(k\)</span>个<span
+class="math inline">\(a_i\)</span>，<span
+class="math inline">\(n-k\)</span>个<span
+class="math inline">\(b_i\)</span>的最大值，<span
+class="math inline">\(k\in[0,n]\)</span>（<span
+class="math inline">\(CF1728E\)</span>)</p>
+<blockquote>
+<p>先选<span class="math inline">\(n\)</span>个<span
+class="math inline">\(b_i\)</span>，再加上堆里恰好<span
+class="math inline">\(k\)</span>个最大的<span
+class="math inline">\(a_i-b_i\)</span>，<span
+class="math inline">\(O(n)\)</span></p>
+</blockquote></li>
+<li><p>两个集合<span class="math inline">\(A,B\)</span>，<span
+class="math inline">\(A与B\)</span>一一对应，<span
+class="math inline">\(A\)</span>无序，<span
+class="math inline">\(B\)</span>要求有序，则可以不管<span
+class="math inline">\(B\)</span>的顺序，求完后再给<span
+class="math inline">\(B\)</span>排序就行。(<span
+class="math inline">\(CF1728F\)</span>)</p></li>
+<li><p>有 <span class="math inline">\(n+1\)</span> 个传送器，分别位于
+<span class="math inline">\(0,a_1,a_2,⋯,a_n\)</span>，可以从点 <span
+class="math inline">\(x\)</span> 传送到 <span
+class="math inline">\(y\)</span>，并且花费<span
+class="math inline">\((y-x)^2\)</span>，再整点安装额外传送器使得可以从
+<span class="math inline">\(0\)</span>传送到 <span
+class="math inline">\(a_n\)</span> 且花费少于 <span
+class="math inline">\(m\)</span>。最小化这个安装数量。(<span
+class="math inline">\(CF1661F\)</span>)</p>
+<blockquote>
+<p><span class="math inline">\(f(x,k)\)</span> 表示将长度为 <span
+class="math inline">\(x\)</span> 的段分为 <span
+class="math inline">\(k\)</span> 段所需的最小费用，有结论：</p>
+<p><span class="math inline">\(∀k∈[1,x]\)</span>，都有
+$f(x,k−1)−f(x,k)≥f(x,k)−f(k+1) $</p>
+</blockquote></li>
+<li><p><font color='red'><strong>最少能删除几个<span
+class="math inline">\(\rightarrow\)</span>最大能保留多少</strong></font></p></li>
+<li><p><font color='red'><strong>多个数取不同模的时候，可以想想所有模数的LCM，找找性质(<span
+class="math inline">\(CF498D\)</span>)</strong></font></p></li>
+<li><p><font color='red'><span
+class="math inline">\(max^{k≤r}_{k=l}a_k\)</span>，想到<span
+class="math inline">\(\rightarrow\)</span>单调队列，意义在于：找到左边右边第一个大于<span
+class="math inline">\(a_k\)</span>的数字(<span
+class="math inline">\(CF1677E\)</span>)</font></p></li>
+<li><p><font color='red'><strong><span class="math inline">\(q\)</span>
+次询问，每次给出 <span class="math inline">\(l,r\)</span>，问有多少个
+<span class="math inline">\(i,j\)</span> 满足 <span
+class="math inline">\(l≤i≤j≤r\)</span>且区间 <span
+class="math inline">\([i,j]\)</span> 是好的</strong></font></p>
+<blockquote>
+<p>离线下来扫描线，具体的，设当前枚举右端点为 <span
+class="math inline">\(r\)</span>，那么 <span
+class="math inline">\(s_l\)</span> 是 <span
+class="math inline">\([l,l],[l,l+1],...,[l,r]\)</span>里好的区间的数目。这样当
+<span class="math inline">\(r=R\)</span> 时，直接求当前 <span
+class="math inline">\(s_L+...+s_R\)</span>，就是询问 <span
+class="math inline">\([L,R]\)</span> 的答案。</p>
+</blockquote></li>
+<li><p>集合内<span
+class="math inline">\(DP\)</span>，但无法记录仪当前已经用过的数的状况，考虑连通块<span
+class="math inline">\(DP\)</span>（<span
+class="math inline">\(CF840C\)</span>)</p></li>
+<li><p>给定<span class="math inline">\(n\)</span>个数，<span
+class="math inline">\(a_1,a_2,a_3...\)</span>，每次选定任意<span
+class="math inline">\(k\)</span>个数<span
+class="math inline">\(-1\)</span>，最后变成全<span
+class="math inline">\(0\)</span>，那么只要满足<span
+class="math inline">\(max(a_i)\le
+\frac{sum}{k}\)</span>，具体可用数学归纳法证明。</p></li>
+<li><p>极差最小化？<span class="math inline">\(\rightarrow\)</span>
+双指针（<span class="math inline">\(CF1574E\)</span>)</p></li>
+<li><p>相互限制问题，可以转化成拓扑<span
+class="math inline">\(top\)</span>排序</p></li>
+<li><p>涉及到前缀和计数的题目，往<span
+class="math inline">\(trie\)</span>树和子树关系上面去思考</p></li>
+<li><p>如果多次询问划开了原来的分组方式，可以考虑每个点可以拓展的区间，再区间求<span
+class="math inline">\(max\)</span>或者取<span
+class="math inline">\(min\)</span>以达到多次询问在线反应的效果 (<span
+class="math inline">\(CF1516D\)</span>)</p></li>
+<li><p><font color='red'>问一个区间多少种数？<strong>HH的项链</strong>，而且树状数组大小<strong>不是值域！！！是<span
+class="math inline">\(n\)</span>！！！</strong> (<span
+class="math inline">\(CF980D\)</span>)</font></p></li>
+<li><p>序列而且两两交换，不好<span
+class="math inline">\(DP\)</span>，可以考虑<strong>置换群</strong>
+(<span class="math inline">\(CF441D\)</span>)</p></li>
+<li><p>快速计算当前连通块个数，每次合并如果成功则<span
+class="math inline">\(N--\)</span>，否则<span
+class="math inline">\(N\)</span>不变。(<span
+class="math inline">\(CF1039C\)</span>)</p></li>
+<li><p>若干区间，单点<span
+class="math inline">\(+1\)</span>，问哪些区间在哪些时刻达到<span
+class="math inline">\(a[i].k\)</span> (<span
+class="math inline">\(CF\)</span> <span
+class="math inline">\(GYM\)</span> <span
+class="math inline">\(104065\)</span> <span
+class="math inline">\(B\)</span>)</p>
+<blockquote>
+<p>值域分块，每单点加<span
+class="math inline">\(\sqrt{n}\)</span>，将距离<span
+class="math inline">\(a[i].k&lt;
+\sqrt{n}\)</span>的区间加入线段树，在下一个<span
+class="math inline">\(\sqrt{n}\)</span>之前单点修改，直到为<span
+class="math inline">\(0\)</span></p>
+</blockquote></li>
+<li><p><font color='red'><strong>给定<span
+class="math inline">\(01\)</span>序列，区间求连续的<span
+class="math inline">\(1\)</span>段 （<span
+class="math inline">\(LXL讲课\)</span>)</strong></font></p>
+<blockquote>
+<ol type="1">
+<li><p>统计有多少<span class="math inline">\(01\)</span></p></li>
+<li><p>统计有多少<span class="math inline">\(11\)</span>，然后所有<span
+class="math inline">\(1\)</span>的个数减去连续<span
+class="math inline">\(11\)</span>的个数</p></li>
+</ol>
+</blockquote></li>
+<li><p>求第 k 大的距离 (<span
+class="math inline">\(JOISC道路の建設案\)</span>)</p>
+<blockquote>
+<p>二分答案，然后计算距离 <span class="math inline">\(≤dis\)</span>
+的点对数</p>
+</blockquote></li>
+<li><p>区间加，区间开根号 （<span
+class="math inline">\(UOJ228\)</span>)</p>
+<blockquote>
+<p>记录区间内<span
+class="math inline">\(max,min\)</span>，开根号时，判断<span
+class="math inline">\(min-\sqrt min\)</span>是否等于<span
+class="math inline">\(max-\sqrt
+max\)</span>，如果等于，等价于区间加一个负数值，如果不等直接继续递归</p>
+<p>原因在于开根会导致极差除以<span class="math inline">\(\sqrt max+\sqrt
+min\)</span>，这样每个区间最多会进行<span
+class="math inline">\(log\)</span>次修改，一次区间加，会导致<span
+class="math inline">\(logn\)</span>个区间加1e5，所以总复杂度<span
+class="math inline">\(O(nlog^2n)\)</span></p>
+</blockquote></li>
+<li><p>集合内点两两之间最大距离，可以考虑按照<span
+class="math inline">\(2\)</span>进制位数<span
+class="math inline">\(0,1\)</span>分<span
+class="math inline">\(log\)</span>次，每次求两个集合之间的最大值 ( <span
+class="math inline">\(GX/GZOI2019旅行者 P5304\)</span>)</p></li>
+<li><p>给定序列，支持序列中元素插入到最后或最前。(<span
+class="math inline">\(CF1288E\)</span>)</p>
+<blockquote>
+<p>在最前或最后直接新建若干空位置即可</p>
+</blockquote></li>
+<li><p>维护一个数前面有多少个数。(<span
+class="math inline">\(CF1288E\)</span>)</p>
+<blockquote>
+<p>将有数的位置赋值为<span
+class="math inline">\(1\)</span>求前缀和即可</p>
+</blockquote></li>
+<li><p>状压<span
+class="math inline">\(DP\)</span>可以考虑记忆化降低复杂度</p></li>
+<li><p>本质不同？可以将相同的值加以区分（<span
+class="math inline">\(P7448\)</span>)</p></li>
+<li><p><font color='red'><strong>连通块个数=黑点个数减去相邻黑点个数</strong>
+(<span class="math inline">\(agc003F\)</span>)</font></p></li>
+<li><p><font color='red'><strong>多边形内，端点在边界，和切割相关</strong></font></p>
+<blockquote>
+<p><font color='red'><strong>想到门槛模型，断环成连，变成区间之间的问题。</strong></font></p>
+</blockquote></li>
+<li><p><span class="math inline">\(sumxor[l,r]=sumxor[1,r]\quad xor
+\quad sumxor[1,l-1]\)</span>。</p></li>
+<li><p>求最大<span
+class="math inline">\(k\)</span>个有序对，等价于求<span
+class="math inline">\(2\times k\)</span>个无序对。</p></li>
+<li><p><span
+class="math inline">\(n\)</span>个集合，每个集合若干个数，取总集合前<span
+class="math inline">\(k\)</span>大，<span
+class="math inline">\(n\)</span>很大</p>
+<blockquote>
+<p>异或粽子经典做法，每次都选每个集合的最大值，把选了最大值得集合求次大值.....以此类推</p>
+</blockquote></li>
+<li><p>对若干次操作后的集合内元素求和：<span
+class="math inline">\(f_i\)</span>表示操作后<span
+class="math inline">\(\ge i\)</span>的数的数量和，那么答案就是<span
+class="math inline">\(\sum_{i=1}^{m} f_i\)</span></p></li>
+<li><p>对所有情况求出总和或者每种情况，想差分（<span
+class="math inline">\(CF1517F\)</span> <span
+class="math inline">\(ARC139D\)</span>)</p></li>
+<li><p>子序列问题可以通过证明不交转化成区间问题 (<span
+class="math inline">\(CF1610G\)</span>)</p></li>
+<li><p>淘汰赛<span class="math inline">\(n\)</span>个人，每次<span
+class="math inline">\(k\)</span>个人比赛，那么树高最高是<span
+class="math inline">\(\frac{n}{k}\)</span>。</p></li>
+<li><p>给你两个可重集 <span class="math inline">\(A,B\)</span>，<span
+class="math inline">\(A,B\)</span> 的元素个数都为 <span
+class="math inline">\(n\)</span>，它们中每个元素的大小 <span
+class="math inline">\(x∈[1,n]\)</span>。请你分别找出 <span
+class="math inline">\(A,B\)</span>
+的子集，使得它们中的元素之和相等，试证明对于任意序列都存在解。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://imgse.com/i/pp1BQmR"><img
+src="https://s1.ax1x.com/2023/03/15/pp1BQmR.png"
+alt="pp1BQmR.png" /></a></p>
+</blockquote></li>
+</ol>
+<h1 id="组合数">组合数</h1>
+<ol type="1">
+<li><p><span
+class="math inline">\(C_{l}^2+C_{l}^4+C_{l}^6+C_{l}^8......=2^{l-1}\)</span></p></li>
+<li><p>逆元预处理</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fact[<span class="number">0</span>]=infact[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">   fact[i]=(ll)i*fact[i<span class="number">-1</span>]%mod;</span><br><span class="line">infact[n]=<span class="built_in">quick_mi</span>(fact[n],mod<span class="number">-2</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=n<span class="number">-1</span>;i&gt;=<span class="number">1</span>;i--)</span><br><span class="line">   infact[i]=(ll)infact[i+<span class="number">1</span>]*(i+<span class="number">1</span>)%mod;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="关于2">关于2</h1>
+<h3 id="位运算">位运算</h3>
+<p>​ 1. <span class="math inline">\(i和i+1\)</span>只会存在倒数<span
+class="math inline">\(1\rightarrow lowbit(i+1)\)</span>这几位不同 (<span
+class="math inline">\(CF1716E\)</span>)</p>
+<h3 id="二叉树">二叉树</h3>
+<ol type="1">
+<li>二叉树，线段树，每一层序号连续，层与层序号连续 (<span
+class="math inline">\(CF1716E\)</span>)</li>
+</ol>
+<h3 id="线性基">线性基</h3>
+<ol type="1">
+<li><p>原序列中任意一个数都可以由线性基中的若干个数异或出来</p></li>
+<li><p>线行基中的数的个数唯一确定，且数的个数最少</p>
+<blockquote>
+<p>考虑先插入<span class="math inline">\(d1,d2,d3\)</span>后<span
+class="math inline">\(x\)</span>无法插入，那么插入<span
+class="math inline">\(d1,d2,x\)</span>后<span
+class="math inline">\(d3\)</span>无法插入</p>
+</blockquote></li>
+<li><p>线性基求最大值，从高到低位贪心</p></li>
+<li><p>线性基合并，假如有<span class="math inline">\(S1\)</span>和<span
+class="math inline">\(S2\)</span>合并，那么先完全插入<span
+class="math inline">\(S1\)</span>,再按照普通插入方式依次插入<span
+class="math inline">\(S2\)</span>即可</p></li>
+</ol>
+<h1 id="数据结构">数据结构</h1>
+<h3 id="树链剖分">树链剖分</h3>
+<ol type="1">
+<li><p>问一条路径上相同颜色的颜色段数量，边两端颜色相同的边的数量，最好有序(<span
+class="math inline">\(P7735,P2486\)</span>)</p>
+<blockquote>
+<p>维护一个结构体，存左端点颜色，右端点颜色，中间的答案】</p>
+<p>具体写法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">range_query</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span></span>&#123;</span><br><span class="line">	<span class="type">bool</span> flg=<span class="number">0</span>;<span class="comment">//flg表示当前答案应归到哪边，0为ans1,1为ans2 </span></span><br><span class="line">	Node h,ans1=(Node)&#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line"> Node ans2=(Node)&#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line">	<span class="keyword">while</span>(topf[x]!=topf[y])&#123;</span><br><span class="line">		<span class="type">int</span> tx=topf[x],ty=topf[y];</span><br><span class="line">		<span class="keyword">if</span>(deep[topf[x]]&lt;deep[topf[y]])&#123; </span><br><span class="line">         flg=!flg;</span><br><span class="line">         <span class="built_in">swp</span>(topf[x],topf[y]);</span><br><span class="line">         <span class="built_in">swp</span>(x,y);</span><br><span class="line">    	&#125;</span><br><span class="line">		<span class="comment">//记得同时取反flg </span></span><br><span class="line">		h=sgtree.<span class="built_in">query</span>(idx[topf[x]],idx[x],<span class="number">1</span>,n,<span class="number">1</span>);</span><br><span class="line">		<span class="comment">//一定注意：每次的查询h，一定是左端点在深度小的地方，</span></span><br><span class="line">		<span class="comment">//右端点在深度大的地方，所以千万不能把左右端点合并错 </span></span><br><span class="line">		<span class="keyword">if</span>(flg)</span><br><span class="line">		    ans2=(Node)&#123;</span><br><span class="line">				h.lc,ans2.rc,ans2.cnt+h.cnt+(ans2.lc==h.rc)</span><br><span class="line">			&#125;;</span><br><span class="line">		<span class="comment">//ans2情况 </span></span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			ans1=(Node)&#123;</span><br><span class="line">				ans1.lc,h.lc,ans1.cnt+h.cnt+(ans1.rc==h.rc)</span><br><span class="line">			&#125;;</span><br><span class="line">		<span class="comment">//ans1情况 </span></span><br><span class="line">		x=fa[topf[x]];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(deep[x]&lt;deep[y])&#123;<span class="built_in">swp</span>(x,y);flg=!flg;&#125;</span><br><span class="line">	h=sgtree.<span class="built_in">query</span>(idx[y],idx[x],<span class="number">1</span>,n,<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">if</span>(flg)</span><br><span class="line">	    ans2=(Node)&#123;</span><br><span class="line">			h.lc,ans2.rc,ans2.cnt+h.cnt+(ans2.lc==h.rc)</span><br><span class="line">		&#125;;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		ans1=(Node)&#123;</span><br><span class="line">			ans1.lc,h.lc,ans1.cnt+h.cnt+(ans1.rc==h.rc)</span><br><span class="line">		&#125;;</span><br><span class="line">	<span class="comment">//末处理 </span></span><br><span class="line">	<span class="keyword">return</span> ans1.cnt+ans2.cnt+(ans1.rc==ans2.lc);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote></li>
+<li><p>当遇到边权转点权的时候，不能更新到<span
+class="math inline">\(LCA(X,Y)\)</span>，具体处理方法如下</p>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">C</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y,<span class="type">int</span> k)</span></span>&#123;</span><br><span class="line"> <span class="type">int</span> tx=top[x],ty=top[y];</span><br><span class="line"> <span class="keyword">while</span>(tx!=ty)&#123;</span><br><span class="line">     <span class="keyword">if</span>(dep[tx]&lt;dep[ty]) <span class="built_in">swap</span>(x,y),<span class="built_in">swap</span>(tx,ty);</span><br><span class="line">     <span class="built_in">change</span>(<span class="number">1</span>,<span class="number">1</span>,n,id[tx],id[x],k);</span><br><span class="line">     x=fa[tx],tx=top[x];</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">if</span>(x!=y) &#123;</span><br><span class="line">     <span class="keyword">if</span>(id[x]&gt;id[y]) <span class="built_in">swap</span>(x,y);</span><br><span class="line">     <span class="built_in">change</span>(<span class="number">1</span>,<span class="number">1</span>,n,id[x]+<span class="number">1</span>,id[y],k);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote></li>
+<li><p>遇到额外边问题，多想想对于连成环的树边的影响(<span
+class="math inline">\(P4374\)</span>)</p></li>
+<li></li>
+</ol>
+<h3 id="莫队">莫队</h3>
+<figure>
+<img src="E:\3_disk_c\pics\屏幕截图%202023-02-14%20092026.png"
+alt="屏幕截图 2023-02-14 092026" />
+<figcaption aria-hidden="true">屏幕截图 2023-02-14 092026</figcaption>
+</figure>
+<h3 id="分块">分块</h3>
+<ol type="1">
+<li>遇到要区间集体右移左移，可以考虑分块，每一个块维护一个<span
+class="math inline">\(stl\)</span>,例如<span
+class="math inline">\(deque\)</span> （<span
+class="math inline">\(CF455D\)</span>)</li>
+<li></li>
+</ol>
+<h1 id="网络流">网络流</h1>
+<h3 id="建图技巧">建图技巧</h3>
+<ol type="1">
+<li></li>
+</ol>
+<h1 id="stl">STL</h1>
+<h3 id="要注意的">要注意的</h3>
+<ol type="1">
+<li><p><span
+class="math inline">\(deque\)</span>是支持中间插入的，(<span
+class="math inline">\(insert\)</span>函数)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deque&lt;<span class="type">int</span>&gt;::iterator it=deq.<span class="built_in">insert</span>(deq.<span class="built_in">begin</span>()+len,<span class="number">10</span>);</span><br></pre></td></tr></table></figure></li>
+<li><p><span class="math inline">\(prev\)</span>函数，<span
+class="math inline">\(prev(iterator,dis)\)</span>返回距离<span
+class="math inline">\(iterator\)</span>左侧<span
+class="math inline">\(dis\)</span>个距离的迭代器。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">std::list&lt;<span class="type">int</span>&gt; mylist&#123; <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span> &#125;;</span><br><span class="line">std::list&lt;<span class="type">int</span>&gt;::iterator it = mylist.<span class="built_in">end</span>();</span><br><span class="line">    <span class="comment">//获取一个距离 it 迭代器 2 个元素的迭代器，由于 2 为正数，newit 位于 it 左侧</span></span><br><span class="line"><span class="keyword">auto</span> newit = <span class="built_in">prev</span>(it, <span class="number">2</span>);</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;prev(it, 2) = &quot;</span> &lt;&lt; *newit &lt;&lt; endl;</span><br><span class="line">    <span class="comment">//n为负数，newit 位于 it 右侧</span></span><br><span class="line">it = mylist.<span class="built_in">begin</span>();</span><br><span class="line">newit = <span class="built_in">prev</span>(it, <span class="number">-2</span>);</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;prev(it, -2) = &quot;</span> &lt;&lt; *newit;</span><br></pre></td></tr></table></figure></li>
+<li><p>离散化板子要记牢</p></li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sort</span>(lsh+<span class="number">1</span>,lsh+n+<span class="number">1</span>);</span><br><span class="line">cnt=<span class="built_in">unique</span>(lsh+<span class="number">1</span>,lsh+n+<span class="number">1</span>)-lsh<span class="number">-1</span>;</span><br><span class="line"><span class="comment">//unique指向的是第一个重复的元素，所以剔除重复元素需要-1</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	num[i]=<span class="built_in">lower_bound</span>(lsh+<span class="number">1</span>,lsh+cnt+<span class="number">1</span>,num[i])-lsh;</span><br></pre></td></tr></table></figure>
+<ol start="4" type="1">
+<li></li>
+</ol>
+<h3 id="更高级的应用">更高级的应用</h3>
+<h1 id="二维数点">二维数点</h1>
+<p>注意，这里的<span
+class="math inline">\(x,y\)</span>都是二维平面，不是二维数组，特殊情况会附加说明。</p>
+<ol type="1">
+<li><p>多次询问，每次询问<span
+class="math inline">\(y\in[1,z],x\in[l,r]，min(f[x][y])\)</span>。</p>
+<blockquote>
+<p>对<span
+class="math inline">\(x\)</span>做扫描线，从1开始扫描，往上扫描，每次将<span
+class="math inline">\(x=i\)</span>与线段树原有点取min，然后当<span
+class="math inline">\(i=z\)</span>的时候，线段树询问<span
+class="math inline">\(l\rightarrow r\)</span>区间的<span
+class="math inline">\(min\)</span>即可</p>
+</blockquote>
+<p><img src="E:\3_disk_c\pics\1_1.png" alt="1_1" style="zoom: 67%;" /></p></li>
+<li><p>多次询问，每次询问一个矩形内最小的数。</p>
+<blockquote>
+<p>二位线段树（第二维动态开点）</p>
+</blockquote></li>
+<li><p>有<span class="math inline">\(2n\)</span>个点对<span
+class="math inline">\((x_i,y_i)\)</span>，每个点有权值<span
+class="math inline">\(v_i\)</span>，每次给定区间<span
+class="math inline">\(l,r\)</span>，求<span
+class="math inline">\(min_{l\le xi,yi \le r} v_i\)</span> （<span
+class="math inline">\(CF1635C\)</span>)</p>
+<blockquote>
+<p>也是普通二位数点，做法：将询问挂在右端点，扫描线，到达右端点后直接区间查询线段树，单点更新以当前点为右端点的点对。</p>
+</blockquote></li>
+<li><p>两棵树，每个点在两棵树上的位置不同，问既在第一棵树的<span
+class="math inline">\(a\)</span>子树内，又在第二棵树的<span
+class="math inline">\(b\)</span>子树内的点的个数 (<span
+class="math inline">\(模拟赛20\)</span>)</p>
+<blockquote>
+<p>转化成每个点有两个属性<span
+class="math inline">\(a,b\)</span>，分别表示在第一个树和第二个树上的<span
+class="math inline">\(dfn\)</span>序，就变成标准长方形数点问题了</p>
+<p>其实也可以不使用二维数点，将在第一棵树的<span
+class="math inline">\(u\)</span>子树的答案差分一下，变成答案减去在扫描到<span
+class="math inline">\(in[u]-1\)</span>的时候已经存在于第二棵树的<span
+class="math inline">\(v\)</span>子树的点，再加上扫描到<span
+class="math inline">\(ed[u]\)</span>的时候存在于子树<span
+class="math inline">\(v\)</span>内的点即可。</p>
+</blockquote>
+<p><img src="E:\3_disk_c\pics\1_2.png" alt="1_2" style="zoom:80%;" /></p></li>
+</ol>
+<h1 id="复杂度">复杂度</h1>
+<ol type="1">
+<li><p>树上启发式合并（堆）是，<span
+class="math inline">\(O(nlogn^2)\)</span></p></li>
+<li><p><span
+class="math inline">\(\frac{x}{1}+\frac{x}{2}+\frac{x}{3}+.....+\frac{x}{x}=O(xlogx)\)</span></p></li>
+<li><p><span class="math inline">\(\sqrt n+\sqrt \frac{n}{2}+\sqrt
+\frac{n}{4}+\sqrt \frac{n}{8}+....=\sqrt n\)</span></p></li>
+</ol>
+<h1 id="题意转化">题意转化</h1>
+<ol type="1">
+<li>求所有方案的操作数之和，可以考虑对称性（<span
+class="math inline">\(CF1193A\)</span>)</li>
+<li>序列上<span class="math inline">\(i\rightarrow
+a[i]\)</span>立马想到基环树</li>
+</ol>
+<h1 id="网格图问题">网格图问题</h1>
+<ol type="1">
+<li><p>给定若干个矩形，然后求每个点被覆盖到的矩形集合中，左边界最靠左的那一个是谁（下同理）</p>
+<blockquote>
+<p>考虑在加入一个矩形的时候，对于这个矩形的右边界，将所有右边界的<span
+class="math inline">\(L\)</span>值更新为左边界的横坐标值，最后从右往左扫描一遍，每次<span
+class="math inline">\(dp[i][j]=min(dp[i][j],dp[i+1][j])\)</span>即可，当然初始化的时候肯定是自己</p>
+</blockquote></li>
+<li><p>网格多米诺问题：状压倒数一行或者倒数一二行。</p></li>
+</ol>
+<h1 id="杂项-1">杂项</h1>
+<h3 id="平方数相关">平方数相关</h3>
+<ol type="1">
+<li>相同的数相乘是平方数，考虑把两个数分别分解成平方数乘常数(<span
+class="math inline">\(CF840C\)</span>)</li>
+<li><span class="math inline">\(\prod ^{2k}_{i=1}i!=\prod
+^{k}_{i=1}\left( 2i\right) !\times \left( 2i-1\right)!=\left( \prod
+^{k}_{i=1}\left( 2i-1\right) !\right) ^{2}\times 2^{k}\times
+k!\)</span></li>
+<li>快速判断是否是平方数：给每一个质因子赋一个随机值，如果一个数的所有质因子的<span
+class="math inline">\(hash\)</span>结果是<span
+class="math inline">\(0\)</span>则是平方数</li>
+<li><span class="math inline">\(a\times b\)</span>如果炸了，考虑<span
+class="math inline">\(log(a\times b)=log(a)+log(b)\)</span></li>
+</ol>
+<h3 id="约数相关">约数相关</h3>
+<ol type="1">
+<li>涉及到枚举<span class="math inline">\(x\in [1,n],y\in[1,n],x\times
+y=z\)</span>，可以考虑转向枚举<span
+class="math inline">\(z\)</span>的因数，降低复杂度(<span
+class="math inline">\(CF1677E\)</span>)</li>
+<li></li>
+</ol>
+<h1 id="一些杂题">一些杂题</h1>
+<ul>
+<li>CF1574E</li>
+<li>CF1633F</li>
+<li>CF1651E</li>
+<li>CF1644F</li>
+<li>CF1697E</li>
+<li>CF1519E</li>
+<li>CF1519F</li>
+<li>CF1469E</li>
+<li>CF1455E</li>
+<li>P7561</li>
+<li>CF1278E</li>
+<li>CF1487F</li>
+</ul>
+<h1 id="特殊题型">特殊题型</h1>
+<h3 id="times-n格子问题"><span class="math inline">\(2\times
+n\)</span>格子问题</h3>
+<ul>
+<li>CF1739E</li>
+</ul>
+<h3 id="全局计算问题-lin1nrin1n">全局计算问题 (<span
+class="math inline">\(l\in[1,n]，r\in[1,n]\)</span>)</h3>
 
       
     </div>
