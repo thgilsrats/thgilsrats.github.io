@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.15.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="[AHOI2013] 作业  区间求值域在\([a,b]\)的数的个数和种类  由于有\(O(n\sqrt m)\)复杂度的修改和\(O(m)\)的查询，我们需要\(O(1)\)修改，\(O(\sqrt n)\)查询的东西，自然是 分块。 于是考虑值域分块即可。 [P3709] 大爷的字符串题  询问一个区间能被拆成至少几个(严格的)\(LIS\) （求区间众数的出现次数）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DS题目（基础）">
+<meta property="og:url" content="http://example.com/2023/03/23/DS%E9%A2%98%E7%9B%AE%EF%BC%88%E5%9F%BA%E7%A1%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="[AHOI2013] 作业  区间求值域在\([a,b]\)的数的个数和种类  由于有\(O(n\sqrt m)\)复杂度的修改和\(O(m)\)的查询，我们需要\(O(1)\)修改，\(O(\sqrt n)\)查询的东西，自然是 分块。 于是考虑值域分块即可。 [P3709] 大爷的字符串题  询问一个区间能被拆成至少几个(严格的)\(LIS\) （求区间众数的出现次数）">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="e:/3_disk_c/DS/pics/1.png">
+<meta property="og:image" content="e:/3_disk_c/DS/pics/2.png">
+<meta property="og:image" content="e:/3_disk_c/DS/pics/3.png">
+<meta property="og:image" content="e:/3_disk_c/DS/pics/4.png">
+<meta property="og:image" content="e:/3_disk_c/DS/pics/5.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/c702391c2c83a74d452f807c17308002.png">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/odhrtl4f.png?x-oss-process=image/resize,m_lfit,h_170,w_225">
+<meta property="og:image" content="e:/3_disk_c/DS/pics/null%20(3).png">
+<meta property="article:published_time" content="2023-03-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-23T14:42:57.097Z">
+<meta property="article:author" content="starslight">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="e:/3_disk_c/DS/pics/1.png">
+
+
+<link rel="canonical" href="http://example.com/2023/03/23/DS%E9%A2%98%E7%9B%AE%EF%BC%88%E5%9F%BA%E7%A1%80%EF%BC%89/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/03/23/DS%E9%A2%98%E7%9B%AE%EF%BC%88%E5%9F%BA%E7%A1%80%EF%BC%89/","path":"2023/03/23/DS题目（基础）/","title":"DS题目（基础）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>DS题目（基础） | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ahoi2013-%E4%BD%9C%E4%B8%9A"><span class="nav-number">1.</span> <span class="nav-text">[AHOI2013] 作业</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p3709-%E5%A4%A7%E7%88%B7%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">[P3709] 大爷的字符串题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%8F%E6%B8%85%E6%96%B0%E4%BA%BA%E6%B8%A3%E6%9C%AC%E6%84%BF"><span class="nav-number">3.</span> <span class="nav-text">小清新人渣本愿</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F%E8%B5%9B-29-b"><span class="nav-number">4.</span> <span class="nav-text">模拟赛 29 B</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#heoi2015-%E5%85%AC%E7%BA%A6%E6%95%B0%E6%95%B0%E5%88%97"><span class="nav-number">5.</span> <span class="nav-text">[HEOI2015] 公约数数列</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p3603-%E9%9B%AA%E8%BE%89"><span class="nav-number">6.</span> <span class="nav-text">P3603 雪辉</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#at_joisc2014_c%E6%AD%B4%E5%8F%B2%E3%81%AE%E7%A0%94%E7%A9%B6"><span class="nav-number">7.</span> <span class="nav-text">[AT_joisc2014_c]歴史の研究</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#zjoi2013k%E5%A4%A7%E6%95%B0%E6%9F%A5%E8%AF%A2"><span class="nav-number">8.</span> <span class="nav-text">[ZJOI2013]K大数查询</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf620e"><span class="nav-number">9.</span> <span class="nav-text">CF620E</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p4145-%E4%B8%8A%E5%B8%9D%E9%80%A0%E9%A2%98%E7%9A%847%E5%88%86%E9%92%9F-2"><span class="nav-number">10.</span> <span class="nav-text">P4145 上帝造题的7分钟 2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#uoj228-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%BB%83%E4%B9%A0%E9%A2%98"><span class="nav-number">11.</span> <span class="nav-text">UOJ228 基础数据结构练习题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf438d-the-child-and-sequence"><span class="nav-number">12.</span> <span class="nav-text">CF438D The Child and
+Sequence</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf431e-chemistry-experiment"><span class="nav-number">13.</span> <span class="nav-text">CF431E Chemistry Experiment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p2184-%E8%B4%AA%E5%A9%AA%E5%A4%A7%E9%99%86"><span class="nav-number">14.</span> <span class="nav-text">P2184 贪婪大陆</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p1438-%E6%97%A0%E8%81%8A%E7%9A%84%E6%95%B0%E5%88%97"><span class="nav-number">15.</span> <span class="nav-text">P1438 无聊的数列</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf992e-nastya-and-king-shamans"><span class="nav-number">16.</span> <span class="nav-text">CF992E Nastya and
+King-Shamans</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf1000f-one-occurence"><span class="nav-number">17.</span> <span class="nav-text">CF1000F One Occurence</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf1149c-tree-generator"><span class="nav-number">18.</span> <span class="nav-text">CF1149C Tree Generator™</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf1422f-boring-queries"><span class="nav-number">19.</span> <span class="nav-text">CF1422F Boring Queries</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf617e-xor-and-favorite-number"><span class="nav-number">20.</span> <span class="nav-text">CF617E XOR and Favorite
+Number</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hnoi2016%E5%A4%A7%E6%95%B0"><span class="nav-number">21.</span> <span class="nav-text">[HNOI2016]大数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf940f-machine-learning"><span class="nav-number">22.</span> <span class="nav-text">CF940F Machine Learning</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf1787g-colorful-tree-again"><span class="nav-number">23.</span> <span class="nav-text">CF1787G Colorful Tree Again</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf1783g-weighed-tree-radius"><span class="nav-number">24.</span> <span class="nav-text">CF1783G Weighed Tree Radius</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf1774g-segment-covering"><span class="nav-number">25.</span> <span class="nav-text">CF1774G Segment Covering</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf1004f-sonya-ans-bitwise-or"><span class="nav-number">26.</span> <span class="nav-text">CF1004F Sonya ans Bitwise OR</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf1114f-please-another-queries-on-array"><span class="nav-number">27.</span> <span class="nav-text">CF1114F Please, another
+Queries on Array？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p4839-p%E5%93%A5%E7%9A%84%E6%A1%B6"><span class="nav-number">28.</span> <span class="nav-text">P4839 P哥的桶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf515e-drazil-and-park"><span class="nav-number">29.</span> <span class="nav-text">CF515E Drazil and Park</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf522d-closest-equals"><span class="nav-number">30.</span> <span class="nav-text">CF522D Closest Equals</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p5386-cnoi2019%E6%95%B0%E5%AD%97%E6%B8%B8%E6%88%8F"><span class="nav-number">31.</span> <span class="nav-text">P5386 [CNOI2019]数字游戏</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf1771f-hossam-and-range-minimum-query"><span class="nav-number">32.</span> <span class="nav-text">CF1771F Hossam and Range
+Minimum Query</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf1767f-two-subtrees"><span class="nav-number">33.</span> <span class="nav-text">CF1767F Two Subtrees</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf739c"><span class="nav-number">34.</span> <span class="nav-text">CF739C</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf718c-sasha-and-array"><span class="nav-number">35.</span> <span class="nav-text">CF718C Sasha and Array</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf803g-periodic-rmq-problem"><span class="nav-number">36.</span> <span class="nav-text">CF803G Periodic RMQ Problem</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf911g-mass-change-queries"><span class="nav-number">37.</span> <span class="nav-text">CF911G Mass Change Queries</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p4062-yazid%E7%9A%84%E6%96%B0%E7%94%9F%E8%88%9E%E4%BC%9A"><span class="nav-number">38.</span> <span class="nav-text">P4062 Yazid的新生舞会</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p4314-cpu%E7%9B%91%E6%8E%A7"><span class="nav-number">39.</span> <span class="nav-text">P4314 CPU监控</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf840d-destiny"><span class="nav-number">40.</span> <span class="nav-text">CF840D Destiny</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf817f-mex-queries"><span class="nav-number">41.</span> <span class="nav-text">CF817F Mex Queries</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf1725e-electrical-efficiency"><span class="nav-number">42.</span> <span class="nav-text">CF1725E Electrical
+Efficiency</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p3224-%E6%B0%B8%E6%97%A0%E4%B9%A1"><span class="nav-number">43.</span> <span class="nav-text">P3224 永无乡</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p3521-pot-tree-rotation"><span class="nav-number">44.</span> <span class="nav-text">P3521 POT-Tree Rotation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p2824-heoi2016tjoi2016%E6%8E%92%E5%BA%8F"><span class="nav-number">45.</span> <span class="nav-text">P2824 [HEOI2016&#x2F;TJOI2016]排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cf558e-a-simple-task"><span class="nav-number">46.</span> <span class="nav-text">CF558E A Simple Task</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p3437-poi2006tet-tetris-3d"><span class="nav-number">47.</span> <span class="nav-text">P3437 [POI2006]TET-Tetris 3D</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p5524-ynoi2012noip2015%E5%85%85%E6%BB%A1%E4%BA%86%E5%B8%8C%E6%9C%9B"><span class="nav-number">48.</span> <span class="nav-text">P5524
+[Ynoi2012]NOIP2015充满了希望</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p4168-violet%E8%92%B2%E5%85%AC%E8%8B%B1"><span class="nav-number">49.</span> <span class="nav-text">P4168 [Violet]蒲公英</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p5048-ynoi2019-yuno-loves-sqrt-technology-iii"><span class="nav-number">50.</span> <span class="nav-text">P5048 [Ynoi2019]
+Yuno loves sqrt technology III</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p1712-noi2016-%E5%8C%BA%E9%97%B4"><span class="nav-number">51.</span> <span class="nav-text">P1712 [NOI2016] 区间</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p3793-%E7%94%B1%E4%B9%83%E4%B8%8E%E5%A4%A7%E6%AF%8D%E7%A5%9E%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%81%B6%E5%83%8F%E5%B4%87%E6%8B%9C"><span class="nav-number">52.</span> <span class="nav-text">P3793
+由乃与大母神原型和偶像崇拜</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p2633-count-on-a-tree"><span class="nav-number">53.</span> <span class="nav-text">P2633 Count on a tree</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p2839-middle"><span class="nav-number">54.</span> <span class="nav-text">P2839 middle</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p4577-fjoi2018-%E9%A2%86%E5%AF%BC%E9%9B%86%E5%9B%A2%E9%97%AE%E9%A2%98"><span class="nav-number">55.</span> <span class="nav-text">P4577 [FJOI2018] 领导集团问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p4331-sequence-%E6%95%B0%E5%AD%97%E5%BA%8F%E5%88%97"><span class="nav-number">56.</span> <span class="nav-text">P4331 Sequence 数字序列</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#p3732-%E4%BE%9B%E7%BB%99%E4%BE%A7%E6%94%B9%E9%9D%A9"><span class="nav-number">57.</span> <span class="nav-text">P3732 供给侧改革</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">starslight</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/23/DS%E9%A2%98%E7%9B%AE%EF%BC%88%E5%9F%BA%E7%A1%80%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="starslight">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="DS题目（基础） | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DS题目（基础）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2023-03-23 00:00:00 / Modified: 22:42:57" itemprop="dateCreated datePublished" datetime="2023-03-23T00:00:00+08:00">2023-03-23</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="ahoi2013-作业">[AHOI2013] 作业</h1>
+<blockquote>
+<p>区间求值域在<span
+class="math inline">\([a,b]\)</span>的数的个数和种类</p>
+</blockquote>
+<p>由于有<span class="math inline">\(O(n\sqrt
+m)\)</span>复杂度的修改和<span
+class="math inline">\(O(m)\)</span>的查询，我们需要<span
+class="math inline">\(O(1)\)</span>修改，<span
+class="math inline">\(O(\sqrt n)\)</span>查询的东西，自然是</p>
+<p>分块。</p>
+<p>于是考虑值域分块即可。</p>
+<h1 id="p3709-大爷的字符串题">[P3709] 大爷的字符串题</h1>
+<blockquote>
+<p>询问一个区间能被拆成至少几个(严格的)<span
+class="math inline">\(LIS\)</span> （求区间众数的出现次数）</p>
+</blockquote>
+<p>等价于：给你 <span class="math inline">\(n\)</span> 个数, <span
+class="math inline">\(m\)</span> 次询问区间 <span
+class="math inline">\([l,r]\)</span> 中众数的出现次数。</p>
+<p>然后就是区间众数的处理方法。</p>
+<p><span class="math inline">\(cnt[i]\)</span> 表示数 <span
+class="math inline">\(i\)</span> 出现的次数, <span
+class="math inline">\(t[i]\)</span> 表示出现 <span
+class="math inline">\(i\)</span> 次的数有多少个。</p>
+<p>加入一个数时,把 <span class="math inline">\(Ans\)</span> 和 <span
+class="math inline">\(cnt\)</span> 取个<span
+class="math inline">\(Max\)</span>。</p>
+<p>删除一个数时,如果有<span class="math inline">\(t[cnt]==1\)</span>
+&amp;&amp; <span class="math inline">\(cnt==Ans\)</span>，那么就 <span
+class="math inline">\(Ans−−\)</span></p>
+<h1 id="小清新人渣本愿">小清新人渣本愿</h1>
+<blockquote>
+<p>区间求是否有：和，差，积为<span
+class="math inline">\(x\)</span>的一对数</p>
+</blockquote>
+<p><span class="math inline">\(bitset\)</span>，判断<span
+class="math inline">\(S\)</span> &amp; <span
+class="math inline">\((S&gt;&gt;x)\)</span>，和的话可以维护一个倒着的<span
+class="math inline">\(bitset\)</span>。</p>
+<h1 id="模拟赛-29-b">模拟赛 29 B</h1>
+<blockquote>
+<p>给定一棵树和序列，区间跳<span
+class="math inline">\(father\)</span>，区间求<span
+class="math inline">\(min_{l≤i≤r}\)</span> <span
+class="math inline">\(dep(a_i)\)</span></p>
+</blockquote>
+<p>分块，让每个块至多总共跳<span
+class="math inline">\(n\)</span>次以来均摊复杂度，所以如果一个块内的点同时跳的时候遇到了之前</p>
+<p>跳到过的点就别跳了。</p>
+<p>时间复杂度分析：对于一次散块修改，首先<span
+class="math inline">\(\sqrt n\times log(n)\)</span>还原块，再<span
+class="math inline">\(\sqrt n\)</span>暴力跳父亲，然后<span
+class="math inline">\(\sqrt n\)</span>修</p>
+<p>改<span
+class="math inline">\(vector\)</span>，对于整块修改，其总共不会超过<span
+class="math inline">\(O(n)\)</span>，总共有<span
+class="math inline">\(\sqrt n\)</span>个块，所以总共是<span
+class="math inline">\(O(n\times \sqrt n)\)</span>的。</p>
+<p>总共修改的散块个数是<span class="math inline">\(2\times
+n\)</span>的，也就是说就算<span
+class="math inline">\(vector\)</span>要重构也总共只用重构<span
+class="math inline">\(2\times n\times \sqrt n\)</span>的。</p>
+<h1 id="heoi2015-公约数数列">[HEOI2015] 公约数数列</h1>
+<blockquote>
+<ol type="1">
+<li>将 <span class="math inline">\(a_i\)</span> 修改为 <span
+class="math inline">\(x\)</span>.</li>
+<li>求最小的整数 <span class="math inline">\(p(0≤p&lt;n)\)</span>，使得
+<span class="math inline">\(gcd(a0,a1,...,ap)\times
+XOR(a0,a1,...,ap)=x\)</span></li>
+</ol>
+</blockquote>
+<p>首先注意到前缀 <span class="math inline">\(gcd\)</span> 种类不超过
+<span class="math inline">\(log\)</span>
+个，所以产生变化的位置甚至可以枚举。</p>
+<p>然后我们从前往后枚举，对于 <span class="math inline">\(gcd\)</span>
+不变的整块，只需要用 <span class="math inline">\(map\)</span>
+找到有无异或前缀和等于 <span class="math inline">\(x/gcd\)</span>。</p>
+<p>单点修改？只用<strong>修改当前块的 <span
+class="math inline">\(map\)</span> </strong></p>
+<p>原因在于，修改是<span
+class="math inline">\(10000\)</span>的，查询是<span
+class="math inline">\(10000\)</span>的，我们希望做到查询修改都是 <span
+class="math inline">\(\sqrt n\)</span>的，所以我们只能</p>
+<p>修改一个块的<span
+class="math inline">\(map\)</span>，查询的时候每经过一个块就再 <span
+class="math inline">\(xor\)</span> 一次总块。</p>
+<p>如果一个块内出现了不同的 <span class="math inline">\(gcd\)</span>
+就暴力扫块，然后至多有 <span class="math inline">\(log\)</span>
+个块要暴力扫。</p>
+<h1 id="p3603-雪辉">P3603 雪辉</h1>
+<blockquote>
+<p>给定一棵树，求链的并的点权种类以及<span
+class="math inline">\(mex\)</span></p>
+</blockquote>
+<p><del>太强了太强了</del></p>
+<p>看到 <span class="math inline">\(mex\)</span> 和数颜色可以想到 <span
+class="math inline">\(bitset\)</span>，然后直觉上是每个链维护一个<span
+class="math inline">\(bitset\)</span>然后合并。</p>
+<p>也就是一颗线段树，所有的 <span class="math inline">\(nlogn\)</span>
+个节点中，每个点有一个 <span
+class="math inline">\(bitset\)</span>，这样做空间开不下。</p>
+<p>然后发现这很类似于线段树合并，底部的两层几乎只有<span
+class="math inline">\(1,2\)</span>个数，于是下两层用<span
+class="math inline">\(pair\)</span>存。</p>
+<ul>
+<li><p>线段树的节点分布：<span
+class="math inline">\(2^0+2^1+...2^k\)</span>满足<span
+class="math inline">\(2^k\ge n\)</span>，那么去掉最后一行就最多只有<span
+class="math inline">\(n\)</span>个节点</p>
+<p>也就是：线段树的节点个数 <span class="math inline">\(-\)</span>
+最后一行的节点个数 <span class="math inline">\(\approx\)</span>
+n</p></li>
+</ul>
+<h1 id="at_joisc2014_c歴史の研究">[AT_joisc2014_c]歴史の研究</h1>
+<blockquote>
+<p>询问区间最大的<span class="math inline">\(val\times time\)</span>
+（值乘上出现次数）</p>
+</blockquote>
+<p>首选想到莫队，然后伸展很好做，缩小很难做，那么采用回滚莫队</p>
+<p>注意，在操作的时候，要先把单独右边的贡献给记录到 <span
+class="math inline">\(lst\)</span>
+里面，然后再移动左端点，这样在左端</p>
+<p>点移动回来的时候才能正确初始答案。</p>
+<p>这个时候的排序要格外注意了，就必须严格用 <span
+class="math inline">\(belong\)</span> 了。</p>
+<h1 id="zjoi2013k大数查询">[ZJOI2013]K大数查询</h1>
+<blockquote>
+<ul>
+<li><code>1 l r c</code>：表示将 <span class="math inline">\(c\)</span>
+加入到编号在 <span class="math inline">\([l,r]\)</span> 内的集合中</li>
+<li><code>2 l r c</code>：表示查询编号在 <span
+class="math inline">\([l,r]\)</span> 内的集合的并集中，第 <span
+class="math inline">\(c\)</span> 大的数是多少。</li>
+</ul>
+</blockquote>
+<p>采用树套树，先在外层套一个权值线段树，每一个点存当前权值在哪些集合里面出现过，这个用动态开点线段树然</p>
+<p>后查询的时候就在最外层的权值线段树上二分就可以了。</p>
+<h1 id="cf620e">CF620E</h1>
+<blockquote>
+<p>其实原题挺简单的，拿<span
+class="math inline">\(bitset\)</span>就能做了，但是如果<span
+class="math inline">\(a[i]\)</span>达到了 <span
+class="math inline">\(100\)</span> 怎么做呢？</p>
+</blockquote>
+<p>我们可以考虑把<span class="math inline">\(100\)</span> 拆分成前<span
+class="math inline">\(50\)</span>和后<span
+class="math inline">\(50\)</span>，就能做了。</p>
+<h1 id="p4145-上帝造题的7分钟-2">P4145 上帝造题的7分钟 2</h1>
+<blockquote>
+<p>区间开根，区间询问和</p>
+</blockquote>
+<p>做法简单，一个数开根<span
+class="math inline">\(log\)</span>次就会变成<span
+class="math inline">\(1\)</span>，然后就不会变了，于是考虑维护区间最大值，如果最大值不超过<span
+class="math inline">\(1\)</span>就不要</p>
+<p>递归下去了。</p>
+<p>这道题的关键在于时间复杂度的分析，我们直接分析每一次操作的复杂度是很难的，于是我们换一个角度考虑，我</p>
+<p>们发现所有<span
+class="math inline">\(n\)</span>个数，每个数都至多会被操作<span
+class="math inline">\(6\)</span>次，我们假设每一次操作都是单点修改，会带上<span
+class="math inline">\(log\)</span> ，于是严谨一些的</p>
+<p>总复杂度为<span class="math inline">\(O(6\times n\times
+logn)\)</span>了。</p>
+<ul>
+<li><p>区间的有些操作虽然难以维护，但是可以通过操作的性质对于区间进行合并处理。</p>
+<p>完全合并需要的次数（即总势能）只要在可接受范围内，那么这个<strong>暴力修改+剪枝</strong>的做法就是可以接受的。</p></li>
+</ul>
+<h1 id="uoj228-基础数据结构练习题">UOJ228 基础数据结构练习题</h1>
+<blockquote>
+<p>区间加，区间开根，区间求和</p>
+</blockquote>
+<p>记录区间内<span
+class="math inline">\(max,min\)</span>，开根号时，判断<span
+class="math inline">\(min-\sqrt min\)</span>是否等于<span
+class="math inline">\(max-\sqrt
+max\)</span>，如果等于，等价于区间加一个</p>
+<p>负数值，如果不等直接继续递归。</p>
+<p>原因在于开根会导致<span class="math inline">\(max-min \rightarrow
+\sqrt max-\sqrt min\)</span> ，其实也就是极差除以<span
+class="math inline">\(\sqrt max+\sqrt min\)</span>，</p>
+<p>至于时间复杂度，我们这样考虑它，如果有一个区间里的数全部都相等，那么我们其实是可以<span
+class="math inline">\(O(1)\)</span>的打上加减标</p>
+<p>记的，如果没有加法，那么最多进行 <span
+class="math inline">\(6nlogn\)</span> 次操作序列就会全部变成<span
+class="math inline">\(1\)</span>，但很不幸的是我们有区间加法操作，但</p>
+<p>是每次区间加法操作只会使得<span
+class="math inline">\(2logn\)</span>个区间的<span
+class="math inline">\(min-\sqrt min\)</span>和<span
+class="math inline">\(max-\sqrt
+max\)</span>产生改变，我们又需要对于每一个</p>
+<p>这样的区间执行<span
+class="math inline">\(6\)</span>次的修改，所以每次区间加法造成的影响是
+<span class="math inline">\(2\times 6 \times
+logn\)</span>的，所以是<span
+class="math inline">\(log^2n\)</span>的，加法操作是</p>
+<p><span class="math inline">\(nlogn\)</span>的，所以大致复杂度是<span
+class="math inline">\(nlog^2n\)</span>的。</p>
+<h1 id="cf438d-the-child-and-sequence">CF438D The Child and
+Sequence</h1>
+<blockquote>
+<p>区间取模，区间求和，单点修改</p>
+</blockquote>
+<p>这道题其实也隐藏了 <span class="math inline">\(log\)</span>
+的性质，具体的：$ x  mod  p &lt; $。</p>
+<p>所以我们可以照葫芦画瓢，记录区间最大值，再加上单点修改，然后同花神游历各国就行了，唯一的区别在于复杂</p>
+<p>度，花游是<span class="math inline">\(6nlogn\)</span>，这一个是<span
+class="math inline">\(nlog^2n\)</span>的，对于单点加操作的理解同上一题。</p>
+<h1 id="cf431e-chemistry-experiment">CF431E Chemistry Experiment</h1>
+<blockquote>
+<ul>
+<li><span class="math inline">\(1\)</span> <span
+class="math inline">\(p\)</span> <span
+class="math inline">\(x\)</span>：倒掉试管<span
+class="math inline">\(p\)</span>的水银修改为<span
+class="math inline">\(x\)</span> <span
+class="math inline">\(ml\)</span>。</li>
+<li><span class="math inline">\(2\)</span> <span
+class="math inline">\(v\)</span>：将<span
+class="math inline">\(v\)</span> <span
+class="math inline">\(ml\)</span>水任意分配至<span
+class="math inline">\(n\)</span>支试管里，最小化有<strong>水</strong>的试管中最大体积，输出这个最小值，误差不超过<span
+class="math inline">\(10^{-4}\)</span>算作正确。。这个操作只是一次假想，不会真的把水倒进试管里。</li>
+</ul>
+</blockquote>
+<p>直接二分答案 <span
+class="math inline">\(mid\)</span>，判断可不可行就线段树查询值域小于<span
+class="math inline">\(mid\)</span>的值的和，然后用</p>
+<p><span class="math inline">\(mid\times num\)</span>减去，再看是否大于
+<span class="math inline">\(v\)</span>
+就可以了，要注意的是这题需要动态开点的线段树。</p>
+<h1 id="p2184-贪婪大陆">P2184 贪婪大陆</h1>
+<blockquote>
+<p>每次操作会加入新的线段，问有多少条线段与区间相交</p>
+</blockquote>
+<p>注意是不能直接取 <span class="math inline">\(max\)</span>
+的，因为会遇到这种情况：</p>
+<p><img src="E:\3_disk_c\DS\pics\1.png" alt="1" style="zoom:80%;" /></p>
+<p>这个时候，我们其实可以维护两个东西：</p>
+<ul>
+<li>维护节点<span
+class="math inline">\(i\)</span>，之前有几个线段的开头，设为<span
+class="math inline">\(st(i)\)</span>。</li>
+<li>维护节点<span
+class="math inline">\(i\)</span>，之前有几个线段的结尾，设为<span
+class="math inline">\(ed(i)\)</span>。</li>
+</ul>
+<p>那么实际询问要求的就是 <span
+class="math inline">\(st[r]-ed[l-1]\)</span>。</p>
+<h1 id="p1438-无聊的数列">P1438 无聊的数列</h1>
+<blockquote>
+<p>区间加等差数列，单点查询</p>
+</blockquote>
+<p>我们发现等差数列这个东西是可合并的，也就是：</p>
+<p>一个首项为<span class="math inline">\(A\)</span>，公差为<span
+class="math inline">\(B\)</span>的数列，加上一个首项为<span
+class="math inline">\(C\)</span>，为<span
+class="math inline">\(D\)</span>的数列可以合成一个首项为</p>
+<p><span class="math inline">\(A+C\)</span>，公差为<span
+class="math inline">\(B+D\)</span>的序列。于是我们在线段树上记录首项和公差即可。</p>
+<p><strong style="color:red;">----------------------------------------------一次复习分割线--------------------------------------------------</strong></p>
+<h1 id="cf992e-nastya-and-king-shamans">CF992E Nastya and
+King-Shamans</h1>
+<blockquote>
+<p>给定一个序列 <span class="math inline">\(a_i\)</span>
+，记其前缀和序列为 <span class="math inline">\(s_i\)</span> ，有 <span
+class="math inline">\(q\)</span> 个询问，每次单点修改，询问是否存在一个
+<span class="math inline">\(i\)</span> 满足 <span
+class="math inline">\(a_i=s_{i-1}\)</span>
+，有多解输出任意一个，无解输出 <span class="math inline">\(−1\)</span>
+。</p>
+</blockquote>
+<p>说白了还是在找<span
+class="math inline">\(log\)</span>，我们发现如果有一个位置满足 <span
+class="math inline">\(a_i-s_{i-1} \ge 0\)</span>，这样的位置不超过</p>
+<p><span class="math inline">\(log\)</span>
+个，证明显然，所以直接大力维护 <span
+class="math inline">\(a_i-s_{i-1}\)</span> 然后判断区间 <span
+class="math inline">\(max\)</span> 是否大于<span
+class="math inline">\(0\)</span>即可。再</p>
+<p>来考虑怎么修改，我们可以考虑修改 <span
+class="math inline">\(delta\)</span> 而不是原值，所以在位置 <span
+class="math inline">\(x\)</span> 单点 <span
+class="math inline">\(+delta\)</span>, <span
+class="math inline">\(x\)</span> 以</p>
+<p>后的所有位置 <span class="math inline">\(-delta\)</span> 即可。</p>
+<h1 id="cf1000f-one-occurence">CF1000F One Occurence</h1>
+<blockquote>
+<p>给定一个长度为 <span class="math inline">\(n\)</span> 序列，<span
+class="math inline">\(m\)</span> 个询问，每次询问给定一个区间 <span
+class="math inline">\([l,r]\)</span>，如果这个区间里存在只出现一次的数，输出这个数（如果有多个就输出任意一个），没有就输出
+<span class="math inline">\(0\)</span></p>
+</blockquote>
+<p>直接莫队+分块莽！可以考虑值域分块，这样每一次的修改就变成 <span
+class="math inline">\(O(1)\)</span>的了，查询的时候</p>
+<p>照常做就行。</p>
+<h1 id="cf1149c-tree-generator">CF1149C Tree Generator™</h1>
+<blockquote>
+<p>给你一棵树的括号序列，输出它的直径。</p>
+<p>有<span
+class="math inline">\(m\)</span>次询问，每次询问表示交换两个括号，输出交换两个括号后的直径（保证每次操作后都为一棵树）</p>
+</blockquote>
+<p>首先要观察出一个性质：<strong>括号序列上任何一个子区间，去掉所有匹配的括号后，得到的</strong></p>
+<p><strong>括号序列一定是树上一条链</strong>，而且链的两端就是括号序列的两端！</p>
+<p>去掉所有匹配的括号是复杂的，我们可以考虑确定性问题转<span
+class="math inline">\(max,min\)</span>，也就是<strong>对于所</strong></p>
+<p><strong>有子区间，找到一个分界点，右区间权值和 −
+左区间权值和的最大值，为这个子区间</strong></p>
+<p><strong>的路径长度最大值</strong>，其中钦定左括号是<span
+class="math inline">\(+1\)</span>，右括号是<span
+class="math inline">\(-1\)</span>，我们发现最后最优解一定是被</p>
+<p>覆盖到的，而且不优解也会被排除掉。</p>
+<h1 id="cf1422f-boring-queries">CF1422F Boring Queries</h1>
+<blockquote>
+<p>区间求<span class="math inline">\(LCM\)</span>，强制在线</p>
+</blockquote>
+<p><span class="math inline">\(LCM\)</span>和<span
+class="math inline">\(GCD\)</span>的关系是很大的，观察到如果一个区间里有大于<span
+class="math inline">\(\sqrt n\)</span>的质因子，那么这个数</p>
+<p>只要出现过我们就会乘上，相当于变成了存在性问题，那么对于小于<span
+class="math inline">\(\sqrt n\)</span>的质因子，这样的</p>
+<p>质因子有<span class="math inline">\(87\)</span>个，可以直接拿<span
+class="math inline">\(87\)</span>个<span
+class="math inline">\(ST\)</span>表维护区间最大值。</p>
+<p>对于存在性问题，可以考虑<span
+class="math inline">\(HH\)</span>的项链，但是强制在线，这也很好处理，加上可持久化就可</p>
+<p>以了，具体的我们维护一个 <span class="math inline">\(root[i]\)</span>
+表示扫描线扫到 <span class="math inline">\(i\)</span>
+的时候线段树的状况，那么我们在查</p>
+<p>询区间<span
+class="math inline">\([l,r]\)</span>的时候自然就会想到，找到<span
+class="math inline">\(root[r]\)</span>，然后查询这个版本的 <span
+class="math inline">\([l,r]\)</span>即可。</p>
+<h1 id="cf617e-xor-and-favorite-number">CF617E XOR and Favorite
+Number</h1>
+<blockquote>
+<p>给定一个长度为 <span class="math inline">\(n\)</span> 的序列 <span
+class="math inline">\(a\)</span>，然后再给一个数字 <span
+class="math inline">\(k\)</span>，再给出 <span
+class="math inline">\(m\)</span>
+组询问，每组询问给出一个区间，求这个区间里面有多少个子区间的异或值为
+<span class="math inline">\(k\)</span>。</p>
+</blockquote>
+<p>最初的想法是：对于每一个右端点找到对应的位置，然后再考虑二维数点，使用<span
+class="math inline">\(KDtree\)</span>解决。但是如果所有数一</p>
+<p>样，就会退化成<span class="math inline">\(O(n^2)\)</span>。</p>
+<p>考虑莫队，直接维护前缀异或和就好了，有三个细节要注意：</p>
+<ul>
+<li><p>因为是<span class="math inline">\(s[l-1]\)</span>和<span
+class="math inline">\(s[r]\)</span>，所以初始读入的 <span
+class="math inline">\(l\)</span> 要减去 <span
+class="math inline">\(1\)</span></p></li>
+<li><p><span class="math inline">\(pos[0]\)</span>要初始化为 <span
+class="math inline">\(1\)</span>。</p></li>
+<li><p>因为是异或，数组开大一点，至少到<span
+class="math inline">\(1&lt;&lt;20\)</span></p></li>
+</ul>
+<h1 id="hnoi2016大数">[HNOI2016]大数</h1>
+<blockquote>
+<p>多次询问，不带修改，询问区间大数能整除<span
+class="math inline">\(p\)</span>的个数</p>
+</blockquote>
+<p>我们发现从后面添数是容易的，从前面添加是困难的。因为从前只需要找到<span
+class="math inline">\(A=\frac{P-B}{10^i mod P}\)</span>。</p>
+<p><span
+class="math inline">\([L,R]×10^{n−R}=sum[L]−sum[R+1]\)</span></p>
+<p><span
+class="math inline">\(⇒[L,R]=\frac{sum[L]−sum[R+1]}{10^{n−R}}\)</span></p>
+<p>∴ <span class="math inline">\(sum[L] mod P=sum[R+1] mod
+P\)</span></p>
+<p>然后就成了小<span class="math inline">\(Z\)</span>的袜子</p>
+<h1 id="cf940f-machine-learning">CF940F Machine Learning</h1>
+<blockquote>
+<ol type="1">
+<li><p>查询区间 <span class="math inline">\([l,r]\)</span>
+中每个数字出现次数的 <span class="math inline">\(mex\)</span>。</p></li>
+<li><p>单点修改某一个位置的值。</p></li>
+</ol>
+</blockquote>
+<p>考虑带修莫队，首先观察到一点，答案一定是小于<span
+class="math inline">\(\sqrt
+n\)</span>的，于是先带修莫队，然后暴力扫描</p>
+<p><span class="math inline">\(mex\)</span>就可以了。</p>
+<p>注意带修改的莫队，要先按照 <span class="math inline">\(l\)</span>
+所在块排序，再按 <span class="math inline">\(r\)</span>
+所在的块排序，最后按照 <span class="math inline">\(t\)</span>
+排序。时间</p>
+<p>复杂度证明如下：</p>
+<figure>
+<img src="E:\3_disk_c\DS\pics\2.png" alt="2" />
+<figcaption aria-hidden="true">2</figcaption>
+</figure>
+<h1 id="cf1787g-colorful-tree-again">CF1787G Colorful Tree Again</h1>
+<blockquote>
+<p>定义一条路径为好，当且仅当：</p>
+<p>1、所有边同色。</p>
+<p>2、所有点均没有被锁。</p>
+<p>3、包含了这种颜色的所有边。</p>
+<p>定义一条路径的权值为边权之和。</p>
+<p>现给定一棵树，有多次操作，每次锁或解锁一个点，你需要求出最大的好路径的权值，若不存在输出
+<span class="math inline">\(0\)</span>。</p>
+</blockquote>
+<h1 id="cf1783g-weighed-tree-radius">CF1783G Weighed Tree Radius</h1>
+<blockquote>
+<p>给定一棵 <span class="math inline">\(n\)</span> 个点，第 <span
+class="math inline">\(i\)</span> 个点有点权 <span
+class="math inline">\(a_i\)</span> 的树，对于一个点 <span
+class="math inline">\(u\)</span> 定义偏心距 <span
+class="math inline">\(e(u)=max⁡\)</span> {<span
+class="math inline">\({dis(u,v)+a_v}\)</span>}，其中 <span
+class="math inline">\(dis(u,v)\)</span>表示两点在树上的距离。定义半径
+<span class="math inline">\(r=min⁡\)</span> <span
+class="math inline">\(e_u\)</span>。</p>
+<p><span class="math inline">\(m\)</span> 次单点修改，每次修改后询问
+<span class="math inline">\(r\)</span>。</p>
+</blockquote>
+<h1 id="cf1774g-segment-covering">CF1774G Segment Covering</h1>
+<blockquote>
+<p>给定 <span class="math inline">\(n\)</span> 个区间 <span
+class="math inline">\([x_i,y_i]\)</span>，保证所有区间均不同。令 <span
+class="math inline">\(f(l,r)\)</span> 表示从 <span
+class="math inline">\(n\)</span>
+个区间中选择偶数个区间使得其求并集后恰为 <span
+class="math inline">\([l,r]\)</span> 的方案数，令 <span
+class="math inline">\(g(l,r)\)</span> 表示从 <span
+class="math inline">\(n\)</span>
+个区间中选择奇数个区间使得其求并集后恰为 <span
+class="math inline">\([l,r]\)</span> 的方案数。给定 <span
+class="math inline">\(q\)</span> 组询问 <span
+class="math inline">\([l_i,r_i]\)</span>，输出 <span
+class="math inline">\(f(l_i,r_i)−g(l_i,r_i)\)</span></p>
+</blockquote>
+<p>首先挖掘性质：如果有两条线段 <span
+class="math inline">\(X,Y\)</span>，其中 <span
+class="math inline">\(X\)</span> 包含了 <span
+class="math inline">\(Y\)</span> ，那么 <span
+class="math inline">\(X\)</span> 可以被删除，原因在于如果有方案选择了
+<span class="math inline">\(X\)</span>, 那么 <span
+class="math inline">\(Y\)</span> 的选择会对奇偶同时产生贡献。</p>
+<p>然后我们考虑对于一个区间 <span
+class="math inline">\([l,r]\)</span>，我们把所有在这个区间内的线段提取出来，按照左端点排序，很容易发现第一条线段是必须选的，但是如果我们选择了三线段，那么二线段的有无又会同时产生贡献，于是三号线段是没有用的。</p>
+<p><img src="E:\3_disk_c\DS\pics\3.png" alt="3" style="zoom:80%;" /></p>
+<p>那么我们发现四号，五号....都被删除了，最后停在了某一号如图：</p>
+<p><img src="E:\3_disk_c\DS\pics\4.png" alt="4" style="zoom:80%;" /></p>
+<p>然后二号就变成了必选。</p>
+<p>那么按照上面的方法删除线段后，只剩下了 <span
+class="math inline">\(k\)</span> 条必须选择的线段，答案就是<span
+class="math inline">\((-1)^k\)</span></p>
+<p>每次询问我们先找到左端点就是 <span class="math inline">\(l\)</span>
+的线段和左端点大于 <span class="math inline">\(l\)</span>
+且最小的两条线段作为起始线段。从他们开始，设他们编号 <span
+class="math inline">\(1,2\)</span>，我们先从 <span
+class="math inline">\(1\)</span> 找到一个左端点大于 <span
+class="math inline">\(r\)</span> 且最小的线段 <span
+class="math inline">\(3\)</span>，再对 <span
+class="math inline">\(2\)</span> 做，一直这么做下去，直到右端点到达
+<span class="math inline">\(r\)</span>。</p>
+<p>那么我们按照上面这个步骤进行一个预处理：对于线段 <span
+class="math inline">\(i\)</span>，我们找到最小的 <span
+class="math inline">\(j\)</span> 满足<span
+class="math inline">\(l_j&gt;r_i\)</span>，建一棵树（森林），我们令
+<span
+class="math inline">\(fa[i]=j\)</span>。事实上不用把树显式建出来，只要
+<span class="math inline">\(fa\)</span> 数组就行。</p>
+<p>这样我们每次先找到两条初始线段，只要线段范围没有超过 <span
+class="math inline">\(r\)</span>，就一直倍增向后面跳 <span
+class="math inline">\(fa\)</span> ，如果最终两条线段的右端点还没到 <span
+class="math inline">\(r\)</span>，或者最终两条线段是相同的，那么答案就是
+<span class="math inline">\(0\)</span> 了。</p>
+<p><img src="E:\3_disk_c\DS\pics\5.png" alt="5" style="zoom: 80%;" /></p>
+<h1 id="cf1004f-sonya-ans-bitwise-or">CF1004F Sonya ans Bitwise OR</h1>
+<blockquote>
+<ol type="1">
+<li>将 <span class="math inline">\(a_i\)</span> 修改成 <span
+class="math inline">\(y\)</span> ；</li>
+<li>给定 <span class="math inline">\(l\)</span> 和 <span
+class="math inline">\(r\)</span> ，询问有多少个区间 <span
+class="math inline">\([L,R]\)</span> 满足 <span
+class="math inline">\(l≤L≤R≤r\)</span> 且 <span
+class="math inline">\(aL∼aR\)</span> 按位或和至少为 <span
+class="math inline">\(x\)</span></li>
+</ol>
+</blockquote>
+<p>这个题目给了我们全新的角度去观察 <span
+class="math inline">\(or\)</span> ，那就是：</p>
+<ul>
+<li>前缀 <span class="math inline">\(or\)</span>
+是单调不减的，所以可以分治双指针。</li>
+<li>不同的前缀 <span class="math inline">\(or\)</span> 种类是不超过
+<span class="math inline">\(log\)</span> 个的。</li>
+</ul>
+<p>所以我们可以考虑对于线段树上每一个节点，记录前缀后缀<span
+class="math inline">\(or\)</span>的种类和长度，这样的</p>
+<p>位置至多只有 <span class="math inline">\(log\)</span>
+个所以合并的时候可以考虑暴力合并。</p>
+<h1 id="cf1114f-please-another-queries-on-array">CF1114F Please, another
+Queries on Array？</h1>
+<blockquote>
+<ol type="1">
+<li><p><code>MULTIPLY l r x</code>，对于所有 <span
+class="math inline">\(i(l≤i≤r)\)</span>，将 <span
+class="math inline">\(a_i\)</span> 乘上 <span
+class="math inline">\(x\)</span>。</p></li>
+<li><p><code>TOTIENT l r</code>，求出 <span
+class="math inline">\(φ(∏_{i=l}^ra_i)\)</span>，</p>
+<p>其中 <span class="math inline">\(φ\)</span> 表示欧拉函数，<span
+class="math inline">\(φ(n)\)</span> 的定义为 <span
+class="math inline">\(1…n\)</span> 中与 <span
+class="math inline">\(n\)</span> 互质的数的个数。</p></li>
+</ol>
+</blockquote>
+<p>注意：欧拉函数虽然是积性函数，但不完全是：</p>
+<ul>
+<li><strong>若 <span class="math inline">\(a ,
+b\)</span>互质</strong>，则$ φ ( a b ) = φ ( a ) φ ( b ) $</li>
+<li><img src="https://img-blog.csdnimg.cn/img_convert/c702391c2c83a74d452f807c17308002.png" alt="img" style="zoom:50%;" /></li>
+</ul>
+<p>所以实际上我们只用维护有哪些质因子就可以了。</p>
+<p>然后 <span class="math inline">\(300\)</span> 以内的质因子只有 <span
+class="math inline">\(62\)</span> 个，直接状压就可以了。</p>
+<p>然后再维护一个区间乘积就可以了。</p>
+<h1 id="p4839-p哥的桶">P4839 P哥的桶</h1>
+<blockquote>
+<p>维护一个集合序列，支持单点插入，区间查询最大异或和。</p>
+</blockquote>
+<p>最大异或和？线性基！</p>
+<p>那么就是普通的线性基插入，线性基合并了。</p>
+<h1 id="cf515e-drazil-and-park">CF515E Drazil and Park</h1>
+<blockquote>
+<p>给定 <span class="math inline">\(n\)</span> 个点 <span
+class="math inline">\(i\)</span> 到点 <span
+class="math inline">\(i+1\)</span> 的距离 <span
+class="math inline">\(d[i]\)</span>，每个点有一个权值 <span
+class="math inline">\(h[i]\)</span>。现在有 <span
+class="math inline">\(m\)</span> 组询问，每次询问 <span
+class="math inline">\([l,r]\)</span> 内两点 <span
+class="math inline">\(x,y\)</span>， 使得 <span
+class="math inline">\(2×(hx+hy)+dis(x,y)\)</span> 最大。其中 <span
+class="math inline">\(dis(x,y)\)</span> 表示 <span
+class="math inline">\(x\)</span> 到 <span
+class="math inline">\(y\)</span> 的距离。</p>
+</blockquote>
+<p>考虑式子 <span class="math inline">\(2\times h_x + 2\times h_y
++dis(x,y)\)</span>。明显是要拆掉的。</p>
+<p>第一步：拆掉<span class="math inline">\(dis(x,y)\)</span> <span
+class="math inline">\(\rightarrow\)</span> <span
+class="math inline">\(sum[x]-sum[y]\)</span></p>
+<p>第二部：分离式子<span class="math inline">\(\rightarrow\)</span>
+<span class="math inline">\(sum[x]+2\times h_x - (sum[y]-2\times
+h_y)\)</span></p>
+<p>那么很明显每一个点我们维护一个 <span
+class="math inline">\(sum[i]+2\times h_i\)</span>，一个 <span
+class="math inline">\(sum[i]-2\times h_i\)</span></p>
+<p>那么我们就在一个区间内找到一个最大的<span
+class="math inline">\(A\)</span>式子，最小的<span
+class="math inline">\(B\)</span>式子就可以了。</p>
+<p>然后考虑如何处理<span
+class="math inline">\(A，B\)</span>在一个点上的问题，那么我们就先删掉这个相同点，再找一遍最大最小值就可以了。</p>
+<h1 id="cf522d-closest-equals">CF522D Closest Equals</h1>
+<blockquote>
+<p>现在有一个序列 <span
+class="math inline">\(a_1,a_2,...,a_n\)</span>，还有 <span
+class="math inline">\(m\)</span> 个查询 <span
+class="math inline">\(l_j,r_j (1≤l_j≤r_j≤n)\)</span>
+。对于每一个查询，请找出距离最近的两个元素 <span
+class="math inline">\(a_x和 a_y(x≠y)\)</span> ，并且满足以下条件：</p>
+<p><span class="math inline">\(l_j≤x,y≤r_j\)</span>;</p>
+<p><span class="math inline">\(a_x=a_y\)</span></p>
+</blockquote>
+<p>看到最近的两个元素，可以想到 <span
+class="math inline">\(HH的项链\)</span>，具体怎么搞呢？</p>
+<p>我们可以考虑把询问全部离线到右端点，然后假设我们当前扫描到了 <span
+class="math inline">\(i\)</span> ，我们就把 <span
+class="math inline">\(pre[i]\)</span>的位置更新为 <span
+class="math inline">\(i-pre[i]\)</span> 一定注意是更新到 <span
+class="math inline">\(pre[i]\)</span> 而不是 <span
+class="math inline">\(i\)</span> ，画画图就能懂了。</p>
+<p>那么询问就是区间最小值了。</p>
+<h1 id="p5386-cnoi2019数字游戏">P5386 [CNOI2019]数字游戏</h1>
+<blockquote>
+<p>给定一个排列，多次询问，求一个区间 <span
+class="math inline">\([l,r]\)</span> 有多少个子区间的值都在区间 <span
+class="math inline">\([x,y]\)</span> 内。</p>
+</blockquote>
+<p>首先容易发现莫队是不好做的，但是我们可以考虑在值域上莫队，那么 <span
+class="math inline">\(x,y\)</span> 的限制就被我们消除了，剩下的是 <span
+class="math inline">\(l,r\)</span> 的问题了。</p>
+<p>然后我们可以这样理解，我们现在序列上有一些 <span
+class="math inline">\(1\)</span>，一段连续的 <span
+class="math inline">\(1\)</span> 的贡献是 <span
+class="math inline">\(\frac {len\times
+(len-1)}{2}\)</span>，然后我们要求 <span
+class="math inline">\([l,r]\)</span> 的贡献。</p>
+<p>首先第一反应是线段树维护，但是这样会多一个 <span
+class="math inline">\(log\)</span> 显然过不去.......</p>
+<p>那么我们考虑<span class="math inline">\(O(1)\)</span>修改，<span
+class="math inline">\(O(\sqrt
+n)\)</span>的查询，可以想到分块解决，但是要支持撤回。</p>
+<p>具体的维护方法可以看<a
+target="_blank" rel="noopener" href="https://383791.blog.luogu.org/solution-p5386">代码</a></p>
+<h1 id="cf1771f-hossam-and-range-minimum-query">CF1771F Hossam and Range
+Minimum Query</h1>
+<blockquote>
+<ul>
+<li><p>给你一个长度为 <span class="math inline">\(n\)</span>
+的非负整数序列 <span class="math inline">\(a\)</span>。</p></li>
+<li><p>有 <span class="math inline">\(q\)</span> 次询问，每次询问 <span
+class="math inline">\([l,r]\)</span>
+中满足出现次数为<strong>奇数</strong>的数当中，<strong>最小</strong>的那个是哪个数，不存在则输出
+<span class="math inline">\(0\)</span></p></li>
+<li><p>强制在线</p></li>
+</ul>
+</blockquote>
+<p>考虑主席树，然后思考怎么快速判断一个区间内是否有出现次数为奇数的数。</p>
+<ul>
+<li>异或 <span class="math inline">\(HASH\)</span>
+，给每一个数字赋一个随机权值，那么有结论，一个区间如果存在出现次数为奇数的数，显然他异或值不为
+<span class="math inline">\(0\)</span>。</li>
+</ul>
+<p>注意这里的主席树是值域上的，<span
+class="math inline">\(root[i]\)</span> 表示前缀异或 <span
+class="math inline">\([1,i]\)</span> 的情况，查询的时候就查询<span
+class="math inline">\(root[r]\)</span> 和 <span
+class="math inline">\(root[l-1]\)</span> 即可。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> lval=tree[tree[p1].lc].val^tree[tree[p2].lc].val;</span><br></pre></td></tr></table></figure>
+<h1 id="cf1767f-two-subtrees">CF1767F Two Subtrees</h1>
+<blockquote>
+<p>给你一棵有根树，每次给出两个子树（可能有交），求这两个子树中所有的点权的最小众数。如果一个点被两个子树覆盖算两次。</p>
+</blockquote>
+<p>区间众数是经典的不可以<span
+class="math inline">\(polylog\)</span>的问题，通用解法是莫队或者摩尔投票。</p>
+<blockquote>
+<p><span class="math inline">\(polylog:\)</span><span
+class="math inline">\(logn\)</span>，<span class="math inline">\(log^2
+n\)</span>，<span class="math inline">\(log^3 n\)</span>。但<span
+class="math inline">\(logn\times \sqrt n\)</span>不算</p>
+</blockquote>
+<p>第一想法是把树拍平，然后跑莫队，但是这样会丢失树上的一些性质。</p>
+<p>可以考虑<span class="math inline">\(dsu\)</span> <span
+class="math inline">\(on\)</span> <span
+class="math inline">\(tree\)</span>
+的实现过程，轻子树暴力重子树保留，这给了我们很好的一个莫队顺序，</p>
+<h1 id="cf739c">CF739C</h1>
+<blockquote>
+<p>现在有 <span class="math inline">\(n\)</span> 个数，<span
+class="math inline">\(m\)</span>
+个操作，<strong>每次区间加一个数</strong>，对于<strong>每一次</strong>操作，你要找出<strong>最长</strong>的
+<span class="math inline">\(a_l...a_r\)</span> ，满足</p>
+<p><span
+class="math inline">\(∃k ⁣∈ ⁣[l,r],al&lt;al+1&lt;al+2&lt;...&lt;ak&gt;ak+1&gt;ak+2&gt;...&gt;ar\)</span></p>
+<p>输出其长度</p>
+</blockquote>
+<figure>
+<img
+src="https://cdn.luogu.com.cn/upload/image_hosting/s1sza3mm.png?x-oss-process=image/resize,m_lfit,h_350,w_400"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>要维护的东西是：</p>
+<ol type="1">
+<li>左右端点的值（<span
+class="math inline">\(lval,rval\)</span>）。这是用于左右区间拼接时判断边界大小关系的。</li>
+<li>以左端点开始的最长单减子段（<span
+class="math inline">\(iseq\)</span>）。</li>
+<li>以右端点结束的最长单增子段（<span
+class="math inline">\(dseq\)</span>）。</li>
+<li>以左端点开始的最长单峰子段（<span
+class="math inline">\(lans\)</span>）。</li>
+<li>以右端点结束的最长单峰子段（<span
+class="math inline">\(rans\)</span>）。<span
+class="math inline">\(2,3,4,5\)</span>
+都是用来拼接整个区间的单峰区间的。后面会详细讲到。</li>
+<li>整个区间的最长单峰区间（<span
+class="math inline">\(ans\)</span>）。</li>
+<li>万年不变的懒标记（<span class="math inline">\(tag\)</span>）。</li>
+</ol>
+<p><del>有点ex</del></p>
+<h1 id="cf718c-sasha-and-array">CF718C Sasha and Array</h1>
+<blockquote>
+<p>在本题中，我们用 <span class="math inline">\(fi\)</span> 来表示第
+<span class="math inline">\(i\)</span> 个斐波那契数（<span
+class="math inline">\(f1=f2=1,fi=fi−1+fi−2(i≥3)\)</span>）。</p>
+<p>给定一个 <span class="math inline">\(n\)</span> 个数的序列 <span
+class="math inline">\(a\)</span>。有 <span
+class="math inline">\(m\)</span> 次操作，操作有两种：</p>
+<ol type="1">
+<li>将 <span class="math inline">\(al∼ar\)</span> 加上 <span
+class="math inline">\(x\)</span>。</li>
+<li>求$ (∑<em>{i=l}^{r}f</em>{a_i}) mod (1e9+7)$。</li>
+</ol>
+</blockquote>
+<p>由于是斐波那契所以想到矩阵维护一下，然后矩阵有一个性质：</p>
+<p><span class="math inline">\(a\times b+a\times c=a\times
+(b+c)\)</span></p>
+<p>所以区间加，就变成了区间乘矩阵了。</p>
+<h1 id="cf803g-periodic-rmq-problem">CF803G Periodic RMQ Problem</h1>
+<blockquote>
+<p>给你一个序列aa 让你支持</p>
+<p><span class="math inline">\(1\quad l，r，x\)</span> 区间赋值</p>
+<p><span class="math inline">\(2\quad l，r\)</span> 询问区间最小值</p>
+<p>我们觉得这个问题太水了,所以我们不会给你序列 <span
+class="math inline">\(a\)</span></p>
+<p>而是给你序列一个长度为 <span class="math inline">\(n\)</span> 的序列
+<span class="math inline">\(b\)</span> ,把 <span
+class="math inline">\(b\)</span> 复制粘贴 <span
+class="math inline">\(k\)</span> 次就可以得到 <span
+class="math inline">\(a\)</span></p>
+</blockquote>
+<p><del>似曾相识</del></p>
+<p>直接动态开点权值线段树就可以了，然后利用<span
+class="math inline">\(ST\)</span>表进行新建点的时候的初始化。</p>
+<h1 id="cf911g-mass-change-queries">CF911G Mass Change Queries</h1>
+<blockquote>
+<p>给出一个数列,有<span
+class="math inline">\(q\)</span>个操作,每种操作是把区间<span
+class="math inline">\([l,r]\)</span>中等于<span
+class="math inline">\(x\)</span>的数改成<span
+class="math inline">\(y\)</span>.输出<span
+class="math inline">\(q\)</span>步操作完的数列.</p>
+</blockquote>
+<p>因为值域只有<span
+class="math inline">\(100\)</span>，所以可以建立<span
+class="math inline">\(100\)</span>
+棵线段树出来，那么某个值在一个区间里有值，当且仅当这棵线段树在这个区间里有点。</p>
+<p>那么在把<span class="math inline">\(x\)</span> 变为 <span
+class="math inline">\(y\)</span> 的时候，就相当于是把 <span
+class="math inline">\(x\)</span> 的线段树在这个区间里的点移动到线段树
+<span class="math inline">\(y\)</span> 上面去，也就是线段树合并。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">modify</span><span class="params">(<span class="type">int</span>&amp; a,<span class="type">int</span>&amp; b,<span class="type">int</span> l,<span class="type">int</span> r,<span class="type">int</span> x,<span class="type">int</span> y)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!a)<span class="keyword">return</span> ;</span><br><span class="line">	<span class="keyword">if</span>(l &gt; y <span class="keyword">or</span> r &lt; x)<span class="keyword">return</span> ;</span><br><span class="line">	<span class="keyword">if</span>(l &gt;= x <span class="keyword">and</span> r &lt;= y) &#123;</span><br><span class="line">		b = <span class="built_in">merge</span>(a , b);</span><br><span class="line">        a = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(!b)</span><br><span class="line">		b = ++cnt;</span><br><span class="line">	<span class="type">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">modify</span>(lson[a],lson[b],l,mid,x,y);</span><br><span class="line">	<span class="built_in">modify</span>(rson[a],rson[b],mid+<span class="number">1</span>,r,x,y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="p4062-yazid的新生舞会">P4062 Yazid的新生舞会</h1>
+<blockquote>
+<p>求有多少个子区间内的众数在该子区间的出现次数严格大于 <span
+class="math inline">\(\frac{r−l+1}{2}\)</span></p>
+</blockquote>
+<p>区间众数，无法<span
+class="math inline">\(polylog\)</span>.....吗？注意这里的众数是绝对众数！</p>
+<p><del>经典题</del></p>
+<p>所以我们考虑枚举众数，然后考虑怎么计算他的贡献，我们发现，如果把是该数的位置赋值为<span
+class="math inline">\(1\)</span>，不是该数的位置赋值为 <span
+class="math inline">\(0\)</span>，那么<span
+class="math inline">\(l,r\)</span> 能成为众数的条件就是 <span
+class="math inline">\(S_r-S_l&gt;r-l-(S_r-S_l)\)</span>。拆掉式子就是<span
+class="math inline">\(2S_r-r&gt;2S_l-l\)</span>，那么问题变成了求全局顺序对个数。</p>
+<p>如果我们每一次都是<span
+class="math inline">\(O(nlogn)\)</span>的去做这个东西，显然不可行，于是考虑找性质。</p>
+<p>我们发现对于前缀和数组<span
+class="math inline">\(S\)</span>，一定是被拆成了一段一段等差数列的，例如：</p>
+<p><span
+class="math inline">\(0,-1,-2/-1,-2,-3/-2,-3/-2/-1,-2\)</span></p>
+<p>可以发现在同一段里面是没有贡献的，而且这样的关键点加起来是<span
+class="math inline">\(O(n)\)</span>的，是非常好的性质。</p>
+<p>记 <span class="math inline">\(T_i\)</span> 表示权值的前缀和，即
+<span class="math inline">\(T_i=∑_{j=1}^i c_i\)</span>。对段内每个位置的
+<span class="math inline">\(P_i\)</span> ，我们得到的贡献是 <span
+class="math inline">\(T_{P_i−1}\)</span>。也就是说，对整个段内 <span
+class="math inline">\([x,y]\)</span> 这些数，总贡献是 <span
+class="math inline">\(∑_{i=x−1}^{y−1}Ti\)</span>。记 <span
+class="math inline">\(G_i\)</span> 表示权值的前缀和的前缀和，即 <span
+class="math inline">\(G_i=∑_{j=1}^{i}T_j\)</span>，那么总贡献可以表示为
+<span class="math inline">\(G_{y−1}−G_{x−1}\)</span>。</p>
+<p>那么问题就变成了区间加法，区间求二阶前缀和。</p>
+<p>可以考虑线段树维护权值的前缀和 <span
+class="math inline">\(T_i\)</span> ，这样在 <span
+class="math inline">\([x,y]\)</span> 上的区间加 <span
+class="math inline">\(1\)</span> 就变成了：在 <span
+class="math inline">\([x,y]\)</span> 上加等差数列 <span
+class="math inline">\(1,2,3,…,y−x+1\)</span>，在 <span
+class="math inline">\([y+1,2n+1]\)</span> 上加上 <span
+class="math inline">\(y−x+1\)</span>。后者也可看成是公差为 <span
+class="math inline">\(0\)</span> 的等差数列。</p>
+<p>然后区间求和就做完了。</p>
+<h1 id="p4314-cpu监控">P4314 CPU监控</h1>
+<blockquote>
+<p>区间加，区间赋值，区间最大值，区间历史最大值。</p>
+</blockquote>
+<p>吉司机线段树？</p>
+<p><del>其实不用太麻烦</del></p>
+<p>这里首先有一个技巧，就是说如果有区间加和区间赋值操作，那么在第一次的区间赋值操作之后，后面所有的区间加操作都可以视作区间赋值操作。</p>
+<p>这样，一个区间的操作序列就被劈成了两半，一半全是区间加，另一半全是区间赋值。</p>
+<p>那么怎么维护区间历史最大值呢？我们先考虑左半边，那么我们可以维护一个上次下放之后的最大加和，上次下方之后的最大赋值，在此之前先维护一个“是否进行过区间赋值的<span
+class="math inline">\(tag\)</span>"，假如我们当前有一个区间加，就先看<span
+class="math inline">\(vis\)</span>是否为<span
+class="math inline">\(1\)</span>，是就直接更新最大赋值，否就更新最大加和，区间赋值也是同理。</p>
+<p>更详细的可以看<a
+target="_blank" rel="noopener" href="https://www.luogu.com.cn/blog/He-Ren/solution-p4314">这里</a></p>
+<h1 id="cf840d-destiny">CF840D Destiny</h1>
+<blockquote>
+<p>给定 <span class="math inline">\(n\)</span> 个元素，<span
+class="math inline">\(m\)</span> 次询问。</p>
+<p>每次给出三个参数 <span class="math inline">\(l,r,k\)</span>，询问区间
+<span class="math inline">\([l,r]\)</span>
+内是否存在出现次数严格大于<span
+class="math inline">\(\frac{r−l+1}{k}\)</span>
+的数。如果存在就输出最小的那个 <span
+class="math inline">\(ans\)</span>，否则输出 <span
+class="math inline">\(-1\)</span>.</p>
+</blockquote>
+<p>建立主席树，然后两个版本相减，然后递归左右子树，如果<strong>总次数</strong>超过目标说明<strong>很有可能这个子区间存在答案</strong>，当然会出现实际不存在的情况，但是最多只会有<span
+class="math inline">\(k\)</span>次这种情况。如图：</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/odhrtl4f.png?x-oss-process=image/resize,m_lfit,h_170,w_225" alt="img" style="zoom:200%;" /></p>
+<h1 id="cf817f-mex-queries">CF817F Mex Queries</h1>
+<blockquote>
+<ul>
+<li>将 l 到 r 的区间用 1 覆盖</li>
+<li>将 l 到 r 的区间用 0 覆盖</li>
+<li>将 l 到 r 的区间取反</li>
+</ul>
+<p>区间的初始值都为 0。</p>
+<p>在每次操作后输出第一个 0 的下标。</p>
+</blockquote>
+<p>虽然用动态开点线段树和线段树上二分也可以做，但是我们还是要学习珂朵莉树。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span>&#123;</span><br><span class="line">    <span class="type">int</span> l,r;</span><br><span class="line">	<span class="keyword">mutable</span> <span class="type">int</span> val;<span class="comment">//区间端点、权值</span></span><br><span class="line">    <span class="type">bool</span> <span class="keyword">operator</span>&lt;(<span class="type">const</span> node &amp;t) <span class="type">const</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> l&lt;t.l;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line">set&lt;node&gt; s;</span><br><span class="line">se it,itl,itr;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> se <span class="title">split</span><span class="params">(<span class="type">int</span> pos)</span></span>&#123;</span><br><span class="line">    it=s.<span class="built_in">lower_bound</span>(<span class="built_in">node</span>(&#123;pos&#125;));</span><br><span class="line">    <span class="keyword">if</span>(it!=s.<span class="built_in">end</span>()&amp;&amp;it-&gt;l==pos)</span><br><span class="line">		<span class="keyword">return</span> it;</span><br><span class="line">    --it;</span><br><span class="line">    <span class="type">int</span> l=it-&gt;l,r=it-&gt;r,v=it-&gt;val;</span><br><span class="line">    s.<span class="built_in">erase</span>(it);</span><br><span class="line">    s.<span class="built_in">insert</span>(<span class="built_in">node</span>(&#123;l,pos<span class="number">-1</span>,v&#125;));</span><br><span class="line">    <span class="keyword">return</span> s.<span class="built_in">insert</span>(<span class="built_in">node</span>(&#123;pos,r,v&#125;)).first;</span><br><span class="line">&#125;<span class="comment">//分裂成 2 个区间</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">assign</span><span class="params">(<span class="type">int</span> l,<span class="type">int</span> r,<span class="type">int</span> val)</span></span>&#123;</span><br><span class="line">    itr=<span class="built_in">split</span>(r+<span class="number">1</span>),itl=<span class="built_in">split</span>(l);</span><br><span class="line">    <span class="comment">//这里特别注意顺序不要颠倒了！</span></span><br><span class="line">    s.<span class="built_in">erase</span>(itl,itr);</span><br><span class="line">    s.<span class="built_in">insert</span>(<span class="built_in">node</span>(&#123;l,r,val&#125;));</span><br><span class="line">&#125;<span class="comment">//区间覆盖</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">rever</span><span class="params">(<span class="type">int</span> l,<span class="type">int</span> r)</span></span>&#123;</span><br><span class="line">    itr=<span class="built_in">split</span>(r+<span class="number">1</span>),itl=<span class="built_in">split</span>(l);</span><br><span class="line">    <span class="keyword">for</span>(se it=itl;it!=itr;++it)</span><br><span class="line">        it-&gt;val=!it-&gt;val;</span><br><span class="line">&#125;<span class="comment">//区间取反</span></span><br></pre></td></tr></table></figure>
+<h1 id="cf1725e-electrical-efficiency">CF1725E Electrical
+Efficiency</h1>
+<blockquote>
+<p>树上 <span class="math inline">\(n\)</span> 个点，每个点有点权 <span
+class="math inline">\(a_i\)</span>。对于一个三元组 <span
+class="math inline">\((x,y,z)\)</span> 满足$ 1≤x&lt;y&lt;z≤n$，定义
+<span class="math inline">\(f(x,y,z)\)</span>
+为树上连通这三个点的连通块的最小边数（即三个点两两间路径的并的边数），<span
+class="math inline">\(g(x,y,z)\)</span>为 <span
+class="math inline">\(gcd⁡(a_x,a_y,a_z)\)</span>
+所含的不同质因子个数，求 <span
+class="math inline">\(∑f(x,y,z)×g(x,y,z)\)</span></p>
+</blockquote>
+<ul>
+<li><p>原答案等价于<span
+class="math inline">\(∑_{d∈P}∑f(x,y,z)[d∣gcd(a_x,a_y,a_z)]\)</span>。</p></li>
+<li><p><span
+class="math inline">\(f(x,y,z)=\frac{dis(x,y)+dis(x,z)+dis(y,z)}{2}\)</span></p></li>
+</ul>
+<p>所以<span
+class="math inline">\(∑f(x,y,z)=\frac{(n−2)}{2}∑dis(x,y)\)</span>。</p>
+<p>然后枚举质数 <span class="math inline">\(p\)</span>，把所有 <span
+class="math inline">\(p∣a_i\)</span> 的点拎出来建虚树，然后一次 <span
+class="math inline">\(dfs\)</span>
+算出任意两点间的距离之和（注意只计算关键点的贡献，对于保持树的形态加入的点不算）。</p>
+<blockquote>
+<p>左偏树：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">find</span><span class="params">(<span class="type">int</span> x)</span></span>&#123;<span class="keyword">return</span> rt[x]==x?x:rt[x]=<span class="built_in">find</span>(rt[x]);&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">merge</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">if</span>(!x||!y)<span class="keyword">return</span> x+y;</span><br><span class="line"> <span class="keyword">if</span>(v[y]&lt;v[x])<span class="built_in">swap</span>(x,y);</span><br><span class="line"> rc[x]=<span class="built_in">merge</span>(rc[x],y);</span><br><span class="line"> <span class="keyword">if</span>(dist[lc[x]]&lt;dist[rc[x]])<span class="built_in">swap</span>(lc[x],rc[x]);</span><br><span class="line"> dist[x]=dist[rc[x]]+<span class="number">1</span>;</span><br><span class="line"> <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h1 id="p3224-永无乡">P3224 永无乡</h1>
+<blockquote>
+<p><code>B x y</code> 表示在岛 <span class="math inline">\(x\)</span>
+与岛 <span class="math inline">\(y\)</span> 之间修建一座新桥。</p>
+<p><code>Q x k</code> 表示询问当前所与岛 <span
+class="math inline">\(x\)</span> 连通的岛中重要度排名第 <span
+class="math inline">\(k\)</span>
+小的岛是哪座，请你输出那个岛的编号。</p>
+</blockquote>
+<p>可以考虑并查集和线段树合并，具体来说，每一个连通块在 <span
+class="math inline">\(rt\)</span>
+处都会有一个线段树，那么合并两个连通块就变成了合并两棵线段树，查询就是查询第
+<span class="math inline">\(k\)</span> 大。</p>
+<h1 id="p3521-pot-tree-rotation">P3521 POT-Tree Rotation</h1>
+<blockquote>
+<p>给定一颗有 <span class="math inline">\(n\)</span>
+个<strong>叶节点</strong>的二叉树。每个叶节点都有一个权值 <span
+class="math inline">\(p_i\)</span>（注意，根不是叶节点），所有叶节点的权值构成了一个
+<span class="math inline">\(1∼n\)</span> 的排列。
+对于这棵二叉树的任何一个结点，保证其要么是叶节点，要么左右两个孩子都存在。
+现在你可以任选一些节点，交换这些节点的左右子树。
+在最终的树上，按照先序遍历遍历整棵树并依次写下遇到的叶结点的权值构成一个长度为
+<span class="math inline">\(n\)</span>
+的排列，你需要最小化这个排列的逆序对数。</p>
+</blockquote>
+<p>一定要注意！每个节点交不交换都是互不影响的！这就说明我们每个点能换就要换，不能换就不换！</p>
+<p>那么问题就变成怎么快速求逆序对了。</p>
+<p>这个题的解决方法和分治求逆序对是很像的，我们可以考虑线段树合并，那么：</p>
+<p>用 <span class="math inline">\(p\)</span> 表示左子树，<span
+class="math inline">\(q\)</span> 表示右子树。<span
+class="math inline">\(ls\)</span> 表示左子节点，<span
+class="math inline">\(rs\)</span> 表示右子节点。</p>
+<p>很明显，对于除了<strong>叶节点</strong>的每一个节点：</p>
+<ol type="1">
+<li>如果不交换： <span
+class="math inline">\(u+=[p.rs].size∗[q.ls].size\)</span></li>
+<li>如果交换： <span
+class="math inline">\(v+=[p.ls].size∗[q.rs].size\)</span></li>
+</ol>
+<p>这里的节点是指值域线段树上的节点。</p>
+<h1 id="p2824-heoi2016tjoi2016排序">P2824 [HEOI2016/TJOI2016]排序</h1>
+<blockquote>
+<ul>
+<li><code>0 l r</code> 表示将区间 <span
+class="math inline">\([l,r]\)</span> 的数字升序排序</li>
+<li><code>1 l r</code> 表示将区间 <span
+class="math inline">\([l,r]\)</span> 的数字降序排序</li>
+</ul>
+<p>注意，这里是对<strong>下标</strong>在区间 <span
+class="math inline">\([l,r]\)</span> 内的数排序。 最后询问第 <span
+class="math inline">\(q\)</span> 位置上的数字。</p>
+</blockquote>
+<p>因为只会询问一个位置，所以可以二分答案，那么问题就变成了区间赋<span
+class="math inline">\(0,1\)</span>值区间求和了。</p>
+<p>如果查询的位置是<span class="math inline">\(1\)</span>，就<span
+class="math inline">\(l=mid+1\)</span>，否则<span
+class="math inline">\(r=mid-1\)</span></p>
+<p>当然因为是区间推平和区间求和，也可以<span
+class="math inline">\(ODT\)</span></p>
+<h1 id="cf558e-a-simple-task">CF558E A Simple Task</h1>
+<blockquote>
+<p>给定一个长度不超过<span
+class="math inline">\(1e5\)</span>的字符串，每次给定区间，要求区间升序降序排序</p>
+</blockquote>
+<p>很经典的一道题目，考虑建树，每个点维护<span
+class="math inline">\(26\)</span>个字母在当前区间的个数，那么排序的时候相当于是先区间求出数组，然后再区间赋值即可。</p>
+<h1 id="p3437-poi2006tet-tetris-3d">P3437 [POI2006]TET-Tetris 3D</h1>
+<blockquote>
+<p>二维区间赋值，一次整体最值。</p>
+</blockquote>
+<p>看一看数据范围，显然的二维线段树。</p>
+<p>那么我们考虑怎么维护，我们发现如果方块掉落在了一片参差不齐的位置，那么我们最后一定是将这一片区间先找到最值，然后区间赋值为最大值<span
+class="math inline">\(+k\)</span>。</p>
+<p>当然需要标记永久化一下。</p>
+<h1 id="p5524-ynoi2012noip2015充满了希望">P5524
+[Ynoi2012]NOIP2015充满了希望</h1>
+<blockquote>
+<p>给一个长为 <span class="math inline">\(n\)</span> 的序列，有 <span
+class="math inline">\(m\)</span> 个操作，操作编号从 <span
+class="math inline">\(1\)</span> 到 <span
+class="math inline">\(m\)</span>，每个操作为：</p>
+<p><code>1 x y</code>：将序列位置为 <span
+class="math inline">\(x,y\)</span> 的两个元素交换。</p>
+<p><code>2 l r x</code>：将序列区间 <span
+class="math inline">\([l,r]\)</span> 内所有元素修改为 <span
+class="math inline">\(x\)</span>。</p>
+<p><code>3 x</code>：查询序列 <span class="math inline">\(x\)</span>
+位置的值。</p>
+<p>现在有 <span class="math inline">\(q\)</span>
+次查询，每次查询给出一个操作的区间 <span
+class="math inline">\([l,r]\)</span>：</p>
+<p>先将序列中的元素全部置为 <span
+class="math inline">\(0\)</span>，之后依次进行从 <span
+class="math inline">\(l\)</span> 到 <span
+class="math inline">\(r\)</span> 的所有操作，求出所有这些操作中所有
+<span class="math inline">\(3\)</span> 操作的答案的和。</p>
+<p>查询之间独立。</p>
+</blockquote>
+<p>看到这种区间推平，就容易想到对于每一个位置都找到最后一个影响到它的操作的位置。</p>
+<p>那么我们对于所有的 <span class="math inline">\(3\)</span>
+操作都找到影响到他的最前面的操作，假设为<span
+class="math inline">\(pos\)</span>，那么在询问的时候如果 <span
+class="math inline">\(l\)</span> 在 <span
+class="math inline">\(pos\)</span> 右边，那么当前位置是没有值的。</p>
+<p>那么现在问题就变成了，每一个位置有一个 <span
+class="math inline">\(pos\)</span> 值一个 <span
+class="math inline">\(val\)</span>值，<span
+class="math inline">\(q\)</span>次询问，每次询问在<span
+class="math inline">\(l,r\)</span>中，<span
+class="math inline">\(pos_i\)</span>大于 <span
+class="math inline">\(l\)</span> 的 <span
+class="math inline">\(val_i\)</span> 的和。</p>
+<p>直接树状数组就可以了。</p>
+<h1 id="p4168-violet蒲公英">P4168 [Violet]蒲公英</h1>
+<blockquote>
+<p>区间众数，强制在线</p>
+<p><span class="math inline">\(n\le40000\)</span>，<span
+class="math inline">\(m\le 50000\)</span> ，<span
+class="math inline">\(w\le 10^9\)</span></p>
+</blockquote>
+<p>可以考虑预处理两个数组：</p>
+<p><span class="math inline">\(p[i][j]\)</span>表示块 <span
+class="math inline">\(i\)</span> 到块 <span
+class="math inline">\(j\)</span> 的最小众数是谁。</p>
+<p><span class="math inline">\(s[i][j]\)</span>表示前<span
+class="math inline">\(i\)</span>个块中数 <span
+class="math inline">\(j\)</span> 出现的次数。</p>
+<p>有这两个数组就可以处理了</p>
+<h1 id="p5048-ynoi2019-yuno-loves-sqrt-technology-iii">P5048 [Ynoi2019]
+Yuno loves sqrt technology III</h1>
+<blockquote>
+<p>区间众数，强制在线</p>
+<p><span class="math inline">\(n\le500000\)</span>，<span
+class="math inline">\(m\le 500000\)</span> ，<span
+class="math inline">\(w\le 10^9\)</span></p>
+</blockquote>
+<p>数据范围太大了，显然我们的<span
+class="math inline">\(s[i][j]\)</span>开不下了，那么我们还是预处理出<span
+class="math inline">\(p[i][j]\)</span>数组，然后考虑散块怎么处理。</p>
+<p>我们可以这样考虑，我们先使用<span
+class="math inline">\(n\)</span>个<span
+class="math inline">\(vector[i]\)</span>记录数<span
+class="math inline">\(i\)</span>出现的位置集合。</p>
+<p>然后记<span class="math inline">\(p_i\)</span>表示<span
+class="math inline">\(i\)</span>这位上的数在<span
+class="math inline">\(vector[a_i]\)</span>是第几个，然后在询问的时候还是先把<span
+class="math inline">\(s[bl+1][br-1]\)</span>找出来，再考虑散块是否会成为众数，设<span
+class="math inline">\(s[bl+1][br-1]=T\)</span>，注意<span
+class="math inline">\(T\)</span>是出现次数，那么散块想要成为众数，必须出现大于<span
+class="math inline">\(T\)</span>次，也就是说，出现第<span
+class="math inline">\(T+now\)</span>次的数要在<span
+class="math inline">\(l,r\)</span>范围内。</p>
+<h1 id="p1712-noi2016-区间">P1712 [NOI2016] 区间</h1>
+<blockquote>
+<p>在数轴上有 <span class="math inline">\(n\)</span> 个闭区间从 <span
+class="math inline">\(1\)</span> 至 <span
+class="math inline">\(n\)</span> 编号，第 <span
+class="math inline">\(i\)</span> 个闭区间为 <span
+class="math inline">\([l_i,r_i]\)</span> 。</p>
+<p>现在要从中选出 <span class="math inline">\(m\)</span> 个区间，使得这
+<span class="math inline">\(m\)</span>
+个区间共同包含至少一个位置。换句话说，就是使得存在一个 <span
+class="math inline">\(x\)</span> ，使得对于每一个被选中的区间 <span
+class="math inline">\([l_i,r_i]\)</span>，都有 <span
+class="math inline">\(l_i≤x≤r_i\)</span> 。</p>
+<p>对于一个合法的选取方案，它的花费为被选中的最长区间长度减去被选中的最短区间长度。</p>
+<p>区间 <span class="math inline">\([l_i,r_i]\)</span> 的长度定义为
+<span class="math inline">\((r_i−l_i)\)</span>
+，即等于它的右端点的值减去左端点的值。</p>
+<p>求所有合法方案中最小的花费。如果不存在合法的方案，输出 <span
+class="math inline">\(−1\)</span>。</p>
+</blockquote>
+<p>双指针，左端点固定时，右端点移动，如果有一个点被覆盖了超过<span
+class="math inline">\(k\)</span>次就停止。</p>
+<p>固定右端点也是可以的，那么就变成了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">	sgt.<span class="built_in">modify</span>(<span class="number">1</span>, <span class="number">1</span>, tot, a[i].l, a[i].r, <span class="number">1</span>);</span><br><span class="line">	<span class="keyword">while</span> (sgt.<span class="built_in">query_all</span>() &gt;= m) &#123;</span><br><span class="line">		<span class="built_in">chkmin</span>(ret, a[i].length - a[tmpl].length);</span><br><span class="line">		sgt.<span class="built_in">modify</span>(<span class="number">1</span>, <span class="number">1</span>, tot, a[tmpl].l, a[tmpl].r, <span class="number">-1</span>);</span><br><span class="line">		tmpl++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="p3793-由乃与大母神原型和偶像崇拜">P3793
+由乃与大母神原型和偶像崇拜</h1>
+<blockquote>
+<p>给你一个长为 <span class="math inline">\(n\)</span> 的序列 <span
+class="math inline">\(a\)</span></p>
+<p>每次两个操作：</p>
+<ol type="1">
+<li>修改 <span class="math inline">\(x\)</span> 位置的值为 <span
+class="math inline">\(y\)</span></li>
+<li>查询区间 <span class="math inline">\([l,r]\)</span>
+是否可以重排为值域上连续的一段</li>
+</ol>
+</blockquote>
+<p>这个题很神奇，我们发现这个东西很难维护，于是考虑有没有什么正确率高一些的维护方法。</p>
+<p>那么我们可以维护线段树区间最小值，区间最大值和区间平方和。</p>
+<p>这里补一个连续平方和公式： <span class="math display">\[
+1^2+2^2+...+n^2 \\\\ =1\times(2-1)+2\times(3-1)+...+n\times(n+1-1)
+\]</span> 因为<span
+class="math inline">\(n\times(n+1)=\frac{1}{3}[n(n+1)(n+2)-(n-1)n(n+1)]\)</span>
+<span class="math display">\[
+S=\frac{1}{3}[1\times2\times3-0\times1\times2]+\frac{1}{3}[2\times3\times4-1\times2\times3]+...
+\]</span></p>
+<p><span class="math display">\[
+=\frac{1}{3}[n(n+1)(n+2)]-\frac{n(n+1)}{2} \\\\
+=\frac{n\times(n+1)\times(2n+1)}{6}
+\]</span></p>
+<h1 id="p2633-count-on-a-tree">P2633 Count on a tree</h1>
+<blockquote>
+<p>给定一棵树，每次询问一条路径上标号第 <span
+class="math inline">\(k\)</span> 小的点是谁</p>
+</blockquote>
+<p>可以考虑可持久化线段树，我们设在节点 <span
+class="math inline">\(i\)</span> 的主席树是 <span
+class="math inline">\(s[i]\)</span>，那么答案就是： <span
+class="math display">\[
+s[u]+s[v]−s[lca(u,v)]−s[fa[lca(u,v)]]
+\]</span> 的主席树的树。</p>
+<p>然后我们没有必要真的一个一个加减把最后得到的树求出来，我们只需要在多个树上同时向左向右走就可以了（有点类似树套树的方法，参见<span
+class="math inline">\(dynamic\)</span> <span
+class="math inline">\(ranking\)</span></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">query</span><span class="params">(Node x, Node y, Node z, Node w, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (l == r) <span class="keyword">return</span> l;</span><br><span class="line">    <span class="type">int</span> sum = node[x.l].sum + node[y.l].sum - node[z.l].sum - node[w.l].sum;</span><br><span class="line">    <span class="type">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(sum &gt;= k) <span class="keyword">return</span> <span class="built_in">query</span>(node[x.l], node[y.l], node[z.l], node[w.l], l, mid, k);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">query</span>(node[x.r], node[y.r], node[z.r], node[w.r], mid+<span class="number">1</span>, r, k - sum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="p2839-middle">P2839 middle</h1>
+<blockquote>
+<p>回答 <span class="math inline">\(Q\)</span> 个这样的询问：<span
+class="math inline">\(s\)</span> 的左端点在 <span
+class="math inline">\([a,b]\)</span> 之间，右端点在 <span
+class="math inline">\([c,d]\)</span> 之间的子区间中，最大的中位数。</p>
+</blockquote>
+<p>看到区间中位数，一定要反应过来是枚举<span
+class="math inline">\(mid\)</span>，然后大于等于 <span
+class="math inline">\(mid\)</span> 的赋值为 <span
+class="math inline">\(1\)</span>，否则赋值为 <span
+class="math inline">\(-1\)</span>，判断就直接判断和是否大于 <span
+class="math inline">\(0\)</span> 就可以了。</p>
+<p>但是我们有多次 <span
+class="math inline">\(check\)</span>，所以要开一个主席树，<span
+class="math inline">\(rt[i]\)</span>表示当前 <span
+class="math inline">\(mid=i\)</span> 的时候数组内 <span
+class="math inline">\(-1\)</span>和<span
+class="math inline">\(1\)</span>的情况是什么样子的。</p>
+<p>然后<span class="math inline">\(check\)</span>就是前区间<span
+class="math inline">\(rmax\)</span> + 后区间<span
+class="math inline">\(lmax +\)</span> 必选区间<span
+class="math display">\[[b + 1, c - 1]\]</span>是否<span
+class="math inline">\(&gt;=0\)</span></p>
+<h1 id="p4577-fjoi2018-领导集团问题">P4577 [FJOI2018] 领导集团问题</h1>
+<blockquote>
+<p>给定一棵树，求<span class="math inline">\(求 ∣Smax∣使得 ∀i,j(ancestor
+of i)∈S,wi≤wj\)</span></p>
+</blockquote>
+<p>可以设<span class="math inline">\(dp[u][x]\)</span>表示点 <span
+class="math inline">\(u\)</span> 的子树中，大于<span
+class="math inline">\(x\)</span> 选的节点全都大于 <span
+class="math inline">\(x\)</span> 的最大子集大小</p>
+<p>那么转移就是：</p>
+<p><span
+class="math inline">\(x∈[1,n],f(u,x)=∑_{v是u的儿子节点}f(v,x)\)</span></p>
+<p><span
+class="math inline">\(x∈[1,w_u],f(u,x)max⁡=∑_{v在u的儿子节点}f(v,w_u)+1\)</span></p>
+<p>每个点用线段树维护第二维度。</p>
+<p>那么问题就变成了区间对一个数取<span
+class="math inline">\(max\)</span>（推平），区间加。</p>
+<p>维护方式就是同时记录区间加和区间取<span
+class="math inline">\(max\)</span>，像这样：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">seg_add</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[x].sum+=v;</span><br><span class="line">    <span class="keyword">if</span>(t[x].assign!=<span class="number">-1</span>)</span><br><span class="line">    	t[x].assign+=v;</span><br><span class="line">    t[x].add+=v;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">assign</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   t[x].sum=<span class="built_in">max</span>(t[x].sum,v);</span><br><span class="line">   t[x].assign=<span class="built_in">max</span>(v,t[x].assign);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!t[k].lson) t[k].lson=<span class="built_in">getnode</span>();</span><br><span class="line">	<span class="keyword">if</span>(!t[k].rson) t[k].rson=<span class="built_in">getnode</span>();</span><br><span class="line">	<span class="keyword">if</span> (t[k].add)</span><br><span class="line">	&#123;</span><br><span class="line">	    t[t[k].lson].sum+=t[k].add;</span><br><span class="line">	    t[t[k].rson].sum+=t[k].add;</span><br><span class="line">	    t[t[k].lson].add+=t[k].add;</span><br><span class="line">	    t[t[k].rson].add+=t[k].add;</span><br><span class="line">	    t[t[k].lson].assign+=t[k].add;</span><br><span class="line">	    t[t[k].rson].assign+=t[k].add;</span><br><span class="line">	    t[k].add=<span class="number">0</span>;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">if</span> (t[k].assign != <span class="number">-1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">	    t[t[k].lson].sum=<span class="built_in">max</span>(t[k].assign,t[t[k].lson].sum);</span><br><span class="line">	    t[t[k].rson].sum=<span class="built_in">max</span>(t[k].assign,t[t[k].rson].sum);</span><br><span class="line">	    t[t[k].lson].assign=<span class="built_in">max</span>(t[k].assign,t[t[k].lson].assign);</span><br><span class="line">	    t[t[k].rson].assign=<span class="built_in">max</span>(t[k].assign,t[t[k].rson].assign);</span><br><span class="line">	    t[k].assign=<span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>他的原理是这样的：</p>
+<figure>
+<img src="E:\3_disk_c\DS\pics\null%20(3).png" alt="null (3)" />
+<figcaption aria-hidden="true">null (3)</figcaption>
+</figure>
+<h1 id="p4331-sequence-数字序列">P4331 Sequence 数字序列</h1>
+<blockquote>
+<p>给定一个整数序列 <span class="math inline">\(a1,a2,⋅⋅⋅,an\)</span>
+求出一个递增序列 <span
+class="math inline">\(b1&lt;b2&lt;⋅⋅⋅&lt;bn\)</span>，使得序列<span
+class="math inline">\(a_i\)</span>和 <span
+class="math inline">\(b_i\)</span> 的各项之差的绝对值之和<span
+class="math inline">\(∣a1−b1∣+∣a2−b2∣+⋅⋅⋅+∣an−bn∣\)</span> 最小。</p>
+</blockquote>
+<p>①：若原序列a满足 <span
+class="math inline">\(a1&lt;a2&lt;…&lt;an\)</span>，显然最优情况为 <span
+class="math inline">\(b_i=a_i\)</span></p>
+<p>②：若原序列a满足 <span
+class="math inline">\(a1&gt;a2&gt;…&gt;an\)</span>，显然最优情况为 <span
+class="math inline">\(b_{mid}=x\)</span>（<span
+class="math inline">\(x\)</span>为<span
+class="math inline">\(a\)</span>中位数）</p>
+<p>有了上述的两种情况，不难发现，整个 <span
+class="math inline">\(a\)</span> 序列是尤一些单调区间组成。</p>
+<p>所以我们可以将原序列a拆成若干个单调区间，最后再将答案合并。</p>
+<p>我们可以重新找一个中位数来合并。</p>
+<p>假设我们已经找到前 <span class="math inline">\(k\)</span>
+个数的最优解，队列中有 <span class="math inline">\(cnt\)</span>
+段区间，每段区间最优解为<span
+class="math inline">\(w1,w2,…,wcnt\)</span>，现在要加入 <span
+class="math inline">\(a_{k+1}\)</span>，并更新队列。</p>
+<p>首先把 <span class="math inline">\(ak+1\)</span> 加入队尾，令 <span
+class="math inline">\(w_{cnt+1}=a_{k+1}\)</span> 如果 <span
+class="math inline">\(w_{cnt}&gt;w_{cnt+1}\)</span>，就将最后两个区间合并，并找出新区间的最优解。重复上述过程，直至满足
+<span class="math inline">\(w\)</span> 单调递增。</p>
+<h1 id="p3732-供给侧改革">P3732 供给侧改革</h1>
+<blockquote>
+<p>Anihc
+国提高社会生产力水平，落实好以人民为中心的发展思想，决定进行供给侧结构性改革。</p>
+<p>为了提高供给品质，你调查了某个产业近来 <span
+class="math inline">\(n\)</span>
+个时期的供求关系平衡情况，每个时期的情况都用 <span
+class="math inline">\(0\)</span> 或 <span
+class="math inline">\(1\)</span> 中的一个数字来表示。于是这就是—个长度为
+<span class="math inline">\(n\)</span> 的 <span
+class="math inline">\(\texttt{01}\)</span> 字符串 <span
+class="math inline">\(S\)</span>。为了更好的了解这一些数据，你需要解决一些询问，我们令
+<span class="math inline">\(\text{data}(L,R)\)</span> 表示：在字符串
+<span class="math inline">\(S\)</span> 中，起始位置在 <span
+class="math inline">\([L,R]\)</span>
+之间的这些后缀之中，具有最长公共前缀的两个后缀的最长公共前缀的长度。</p>
+<p>对于每一个询问 <span class="math inline">\(L,R\)</span>，求：</p>
+<p><span class="math display">\[ans = \sum_{L \leqslant i &lt; R}
+\text{data}(i,R)\]</span></p>
+<p>由于你其实根本没有时间调查，所以这些数据都是乱编的，即串 <span
+class="math inline">\(S\)</span> 中的每一位都是在 <span
+class="math inline">\(0\)</span> 和 <span
+class="math inline">\(1\)</span> 之间随机产生的。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/03/20/CDQ%E5%88%86%E6%B2%BB/" rel="prev" title="CDQ分治">
+                  <i class="fa fa-chevron-left"></i> CDQ分治
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/03/23/%E5%A5%97%E8%B7%AF%E9%A2%98%E7%9B%AE/" rel="next" title="套路题目">
+                  套路题目 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">starslight</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
